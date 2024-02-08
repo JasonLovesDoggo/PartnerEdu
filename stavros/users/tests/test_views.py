@@ -12,11 +12,8 @@ from django.utils.translation import gettext_lazy as _
 from stavros.users.forms import UserAdminChangeForm
 from stavros.users.models import User
 from stavros.users.tests.factories import UserFactory
-from stavros.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from stavros.users.views import (UserRedirectView, UserUpdateView,
+                                 user_detail_view)
 
 pytestmark = pytest.mark.django_db
 
