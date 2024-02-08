@@ -55,7 +55,7 @@ class Contact(Model):
     event_type = CharField(max_length=255)
     resources = TextField()
     contacts = ManyToManyField('Contact')
-    tags = ManyToManyField('Tag', related_name='organizations')
+    tags = ManyToManyField('Tag')
 
 
 class Organization(Model):
