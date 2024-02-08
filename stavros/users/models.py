@@ -2,7 +2,7 @@ from typing import ClassVar
 
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
-from django.db.models import CharField, EmailField, ManyToManyField, Model, TextField, CASCADE, ForeignKey
+from django.db.models import CASCADE, CharField, EmailField, ForeignKey, ManyToManyField, Model, TextField
 from django.forms import DateTimeField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _

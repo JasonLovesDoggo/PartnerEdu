@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import include, path
 
 from stavros.users.views import user_detail_view, user_redirect_view, user_update_view
 
