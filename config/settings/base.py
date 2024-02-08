@@ -75,6 +75,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "location_field.apps.DefaultConfig"
 ]
 
 LOCAL_APPS = [
