@@ -1,5 +1,4 @@
-
-{% load static i18n compress%}<!DOCTYPE html>
+{% load static pwa i18n compress%}<!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
@@ -9,7 +8,8 @@
       {% block title %}
       Stavros
     {% endblock title %}
-  </title>
+      {% progressive_web_app_meta %}
+    </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
         content="A CMS for schools" />
