@@ -60,3 +60,5 @@ INSTALLED_APPS += ["django_extensions"]  # noqa: F405
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+PWA_APP_DEBUG_MODE = True

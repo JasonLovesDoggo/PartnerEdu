@@ -173,6 +173,7 @@ sentry_sdk.init(
     traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
 )
 
-
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+PWA_APP_DEBUG_MODE = False

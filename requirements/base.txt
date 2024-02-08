@@ -17,4 +17,5 @@ crispy-bootstrap5==2023.10  # https://github.com/django-crispy-forms/crispy-boot
 django-compressor==4.4  # https://github.com/django-compressor/django-compressor
 django-redis==5.4.0  # https://github.com/jazzband/django-redis
 django-location-field==2.7.3 # https://github.com/caioariede/django-location-field
+django-pwa==1.1.0 #
 
