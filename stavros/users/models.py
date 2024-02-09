@@ -2,8 +2,17 @@ from typing import ClassVar
 
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
-from django.db.models import CASCADE, CharField, EmailField, ForeignKey, ManyToManyField, Model, TextField, SlugField, \
-    DateTimeField
+from django.db.models import (
+    CASCADE,
+    CharField,
+    EmailField,
+    ForeignKey,
+    ManyToManyField,
+    Model,
+    TextField,
+    SlugField,
+    DateTimeField,
+)
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from location_field.forms.plain import PlainLocationField
@@ -60,7 +69,7 @@ class Contact(Model):
 
 
 class Announcement(Model):
-    slug = SlugField(unique=True, editable=False)
+    slug = SlugField(unique=True, editable=False, null=True, blank=True)
     title = CharField(max_length=255)
     content = TextField()
     date_posted = DateTimeField(auto_now_add=True, editable=False)
@@ -68,13 +77,14 @@ class Announcement(Model):
     organization = ForeignKey("Organization", on_delete=CASCADE, related_name="announcements")
 
     def save(self, *args, **kwargs):
-        if not self.id and not self.slug:
+        if not self.id or not self.slug:  # only on creation
             self.slug = slugify(self.title)
         super(Announcement, self).save(*args, **kwargs)
 
+
 class Organization(Model):
     name = CharField(max_length=200)
-    slug = SlugField(unique=True, editable=False)
+    slug = SlugField(unique=True, editable=False, null=True, blank=True)
     industry = CharField(max_length=255)
     event_type = CharField(max_length=255)
     resources = TextField()
@@ -82,7 +92,7 @@ class Organization(Model):
     tags = ManyToManyField("Tag", related_name="organizations")
 
     def save(self, *args, **kwargs):
-        if not self.id:  # only on creation
+        if not self.id or not self.slug:  # only on creation
             self.slug = slugify(self.name)  # replace spaces with hyphens and other unicode changes.
         super(Organization, self).save(*args, **kwargs)
 
@@ -96,6 +106,7 @@ class Event(Model):
     city = CharField(max_length=40)
     location = PlainLocationField(based_fields=["city"], zoom=7)
     tags = ManyToManyField("Tag", related_name="events")
+    attendees = ManyToManyField(User, related_name="events")
 
 
 class Tag(Model):

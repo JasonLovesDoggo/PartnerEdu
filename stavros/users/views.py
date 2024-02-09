@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -6,8 +8,11 @@ from django.db.models.fields import DurationField
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views import View
 from django.views.generic import DetailView, RedirectView, UpdateView, ListView
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+
+import stavros
 from stavros.users.models import Event, Organization, Announcement
 
 User = get_user_model()
@@ -67,7 +72,6 @@ class EventListView(ListView):
         return queryset
 
 
-
 class EventDetailView(DetailView):
     model = Event
     template_name = "event_detail.html"
@@ -75,6 +79,16 @@ class EventDetailView(DetailView):
     def get_object(self, queryset=None):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Event, id=id_)
+
+
+class OrganizationListView(ListView):
+    model = Organization
+    template_name = "organization_list.html"
+    context_object_name = "organizations"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Organization.objects.all()
 
 
 class OrganizationDetailView(DetailView):
@@ -85,6 +99,7 @@ class OrganizationDetailView(DetailView):
         slug_ = self.kwargs.get("slug")
         return get_object_or_404(Organization, slug=slug_)
 
+
 class AnnouncementListView(ListView):
     model = Event
     template_name = "announcement_list.html"
@@ -92,7 +107,8 @@ class AnnouncementListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Announcement.objects.filter(date_posted__lte=timezone.now()).order_by('-date')
+        return Announcement.objects.filter(date_posted__lte=timezone.now()).order_by("-date")
+
 
 class AnnouncementDetailView(DetailView):
     model = Event
@@ -101,3 +117,22 @@ class AnnouncementDetailView(DetailView):
     def get_object(self, queryset=None):
         slug_ = self.kwargs.get("slug")
         return get_object_or_404(Announcement, slug=slug_)
+
+
+class DashboardView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user: stavros.users.models.User = request.user
+        context = {
+            "user": user,
+            "events": user.events.all(),
+            "subscribed_orgs": user.subscribed_organizations.all(),
+            "followed_tags": user.subscribed_tags.all(),
+        }
+        return render(request, "dashboard.html", context)
+
+
+class MapView(View):
+    def get(self, request, *args, **kwargs):
+        locations = [[o.name, o.latitude, o.longitude, i] for i, o in enumerate(Organization.objects.all())]
+        context = {"locations": json.dumps(locations)}
+        return render(request, "core/map_view.html", context)
