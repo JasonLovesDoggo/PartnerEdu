@@ -2,11 +2,12 @@ from typing import ClassVar
 
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
-from django.db.models import CASCADE, CharField, EmailField, ForeignKey, ManyToManyField, Model, TextField
-from django.forms import DateTimeField
+from django.db.models import CASCADE, CharField, EmailField, ForeignKey, ManyToManyField, Model, TextField, SlugField, \
+    DateTimeField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from location_field.forms.plain import PlainLocationField
+from slugify.slugify import slugify
 
 from stavros.users.managers import UserManager
 
@@ -58,13 +59,32 @@ class Contact(Model):
     tags = ManyToManyField("Tag")
 
 
+class Announcement(Model):
+    slug = SlugField(unique=True, editable=False)
+    title = CharField(max_length=255)
+    content = TextField()
+    date_posted = DateTimeField(auto_now_add=True, editable=False)
+    tags = ManyToManyField("Tag", related_name="announcements")
+    organization = ForeignKey("Organization", on_delete=CASCADE, related_name="announcements")
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.slug:
+            self.slug = slugify(self.title)
+        super(Announcement, self).save(*args, **kwargs)
+
 class Organization(Model):
-    name = CharField(max_length=255)
+    name = CharField(max_length=200)
+    slug = SlugField(unique=True, editable=False)
     industry = CharField(max_length=255)
     event_type = CharField(max_length=255)
     resources = TextField()
     contacts = ManyToManyField("Contact")
     tags = ManyToManyField("Tag", related_name="organizations")
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # only on creation
+            self.slug = slugify(self.name)  # replace spaces with hyphens and other unicode changes.
+        super(Organization, self).save(*args, **kwargs)
 
 
 class Event(Model):
