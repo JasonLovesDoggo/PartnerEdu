@@ -5,13 +5,13 @@ from django.core.validators import RegexValidator
 from django.db.models import (
     CASCADE,
     CharField,
+    DateTimeField,
     EmailField,
     ForeignKey,
     ManyToManyField,
     Model,
-    TextField,
     SlugField,
-    DateTimeField,
+    TextField,
 )
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -42,7 +42,6 @@ class User(AbstractUser):
     contacts = ManyToManyField("Contact", blank=True, related_name="contacts")
 
     objects: ClassVar[UserManager] = UserManager()
-
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.

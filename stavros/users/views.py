@@ -3,17 +3,17 @@ import json
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import IntegerField, When, F, Case
+from django.db.models import Case, F, IntegerField, When
 from django.db.models.fields import DurationField
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import View
-from django.views.generic import DetailView, RedirectView, UpdateView, ListView
-from django.shortcuts import get_object_or_404, render
+from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
 import stavros
-from stavros.users.models import Event, Organization, Announcement
+from stavros.users.models import Announcement, Event, Organization
 
 User = get_user_model()
 

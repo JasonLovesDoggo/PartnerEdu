@@ -5,7 +5,7 @@ from django.contrib.auth import decorators, get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from stavros.users.forms import UserAdminChangeForm, UserAdminCreationForm
-from stavros.users.models import Event, Organization, Tag, Contact, Announcement
+from stavros.users.models import Announcement, Contact, Event, Organization, Tag
 
 User = get_user_model()
 
@@ -56,4 +56,3 @@ admin.site.register(Organization)
 admin.site.register(Announcement)
 admin.site.register(Tag)
 admin.site.register(Contact)
-
