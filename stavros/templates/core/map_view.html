@@ -4,7 +4,11 @@
 
 {% block content %}
   <script type="text/javascript">
-    var locations = {{ locations|safe }};
+    var locations = {
+      {
+        locations | safe
+      }
+    };
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 13,
@@ -22,8 +26,8 @@
         map: map
       });
 
-      google.maps.event.addListener(marker, 'click', (function (marker, i) {
-        return function () {
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
           infowindow.setContent(locations[i][0]);
           infowindow.open(map, marker);
         }

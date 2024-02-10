@@ -19,4 +19,3 @@ django-redis==5.4.0  # https://github.com/jazzband/django-redis
 six # django location needs it
 django-location-field # https://github.com/caioariede/django-location-field
 django-pwa==1.1.0 #
-

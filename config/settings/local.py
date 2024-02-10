@@ -1,7 +1,7 @@
 from django.core.exceptions import ImproperlyConfigured
 
 from .base import *  # noqa
-from .base import env
+from .base import BASE_DIR, env
 
 # GENERAL
 # ------------------------------------------------------------------------------

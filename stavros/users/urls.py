@@ -1,6 +1,18 @@
 from django.urls import path
 
-from stavros.users.views import *
+from stavros.users.views import (
+    AnnouncementDetailView,
+    AnnouncementListView,
+    DashboardView,
+    EventDetailView,
+    EventListView,
+    MapView,
+    OrganizationDetailView,
+    OrganizationListView,
+    UserDetailView,
+    UserRedirectView,
+    UserUpdateView,
+)
 
 app_name = "users"
 urlpatterns = [

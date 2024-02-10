@@ -79,7 +79,7 @@ class Announcement(Model):
     def save(self, *args, **kwargs):
         if not self.id or not self.slug:  # only on creation
             self.slug = slugify(self.title)
-        super(Announcement, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Organization(Model):
@@ -94,7 +94,7 @@ class Organization(Model):
     def save(self, *args, **kwargs):
         if not self.id or not self.slug:  # only on creation
             self.slug = slugify(self.name)  # replace spaces with hyphens and other unicode changes.
-        super(Organization, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Event(Model):
