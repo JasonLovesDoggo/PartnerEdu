@@ -5,6 +5,7 @@ from django.contrib.auth import decorators, get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from stavros.users.forms import UserAdminChangeForm, UserAdminCreationForm
+from stavros.users.models import Event, Organization, Tag, Contact, Announcement
 
 User = get_user_model()
 
@@ -47,3 +48,12 @@ class UserAdmin(auth_admin.UserAdmin):
             },
         ),
     )
+
+
+admin.site.site_header = "Stavros Administration"
+admin.site.register(Event)
+admin.site.register(Organization)
+admin.site.register(Announcement)
+admin.site.register(Tag)
+admin.site.register(Contact)
+

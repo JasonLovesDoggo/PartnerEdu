@@ -39,8 +39,10 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
     subscribed_tags = ManyToManyField("Tag")
     subscribed_organizations = ManyToManyField("Organization")
+    contacts = ManyToManyField("Contact", blank=True, related_name="contacts")
 
     objects: ClassVar[UserManager] = UserManager()
+
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.
@@ -53,7 +55,7 @@ class User(AbstractUser):
 
 
 class Contact(Model):
-    user = ForeignKey(User, on_delete=CASCADE, related_name="contacts")
+    user = ForeignKey(User, on_delete=CASCADE, related_name="info")
     position = CharField(max_length=255)
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,15}$",  # only allow proper phone numbers to be entered
@@ -64,8 +66,7 @@ class Contact(Model):
     industry = CharField(max_length=255)
     event_type = CharField(max_length=255)
     resources = TextField()
-    contacts = ManyToManyField("Contact")
-    tags = ManyToManyField("Tag")
+    tags = ManyToManyField("Tag", blank=True, related_name="contacts")
 
 
 class Announcement(Model):
@@ -88,7 +89,7 @@ class Organization(Model):
     industry = CharField(max_length=255)
     event_type = CharField(max_length=255)
     resources = TextField()
-    contacts = ManyToManyField("Contact")
+    contacts = ManyToManyField("Contact", blank=True)
     tags = ManyToManyField("Tag", related_name="organizations")
 
     def save(self, *args, **kwargs):
@@ -106,7 +107,7 @@ class Event(Model):
     city = CharField(max_length=40)
     location = PlainLocationField(based_fields=["city"], zoom=7)
     tags = ManyToManyField("Tag", related_name="events")
-    attendees = ManyToManyField(User, related_name="events")
+    attendees = ManyToManyField(User, related_name="events", blank=True)
 
 
 class Tag(Model):
