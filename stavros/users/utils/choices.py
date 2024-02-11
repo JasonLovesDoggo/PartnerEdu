@@ -326,6 +326,8 @@ COURSE_OPTIONS = [
     ("Small Engine & Recreational", "TTS3C"),
     ("Truck and Coach", "TTT3C"),
 ]
+COURSE_OPTIONS = [(course[1], course[0]) for course in COURSE_OPTIONS]
+
 
 POSITIONS = [
     ("Chief Executive Officer", "CEO"),
@@ -462,3 +464,5 @@ POSITIONS = [
     ("Market Research Analyst", "Market Research Analyst"),
     ("Operations Research Analyst", "Operations Research Analyst"),
 ]
+
+POSITIONS = [(position[1], position[0]) for position in POSITIONS]

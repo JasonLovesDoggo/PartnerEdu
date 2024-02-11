@@ -88,7 +88,7 @@ class StudentProfile(Model):
     # The address of the student.
     address = PlainLocationField()
     # The year the student is graduating.
-    graduating_year = CharField(max_length=255, choices=[(i, i) for i in range(2022, 2030)])
+    graduating_year = CharField(max_length=255, choices=[(i, i) for i in range(2024, 2031)])
     # The unique ID of the student.
     student_id = CharField(unique=True, max_length=9)  # 9 digit student id
     # Any additional notes about the student.
