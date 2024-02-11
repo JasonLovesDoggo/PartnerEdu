@@ -5,13 +5,11 @@ from django.core.validators import RegexValidator
 from django.db.models import (
     CASCADE,
     CharField,
-    CheckConstraint,
     DateTimeField,
     EmailField,
     ForeignKey,
     ManyToManyField,
     Model,
-    Q,
     SlugField,
     TextField,
 )
@@ -47,15 +45,6 @@ class User(AbstractUser):
     # is teacher is if they are in the teacher group
     objects: ClassVar[UserManager] = UserManager()
 
-    class Meta:
-        # user cannot be teacher and student
-        constraints = [
-            CheckConstraint(
-                check=Q(is_student=True) | Q(is_teacher=True),
-                name="teacher_or_student",
-            )
-        ]
-
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.
 
@@ -71,7 +60,7 @@ class Class(Model):
     subject = CharField(max_length=255, choices=COURSE_OPTIONS)
     grade_level = IntegerField(choices=[(i, i) for i in range(9, 13)])
     teacher = ForeignKey(User, on_delete=CASCADE, related_name="classes_teaching")
-    students = ManyToManyField(User, related_name="classes_attending", blank=True)
+    students = ManyToManyField("StudentProfile", related_name="classes_attending", blank=True)
 
 
 class StudentProfile(Model):
