@@ -2,10 +2,6 @@
 
 A CMS for schools
 
-## Settings
-
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
-
 ## Basic Commands
 
 ### Setting Up Your Users
@@ -35,11 +31,6 @@ To run the tests, check your test coverage, and generate an HTML coverage report
 #### Running tests with pytest
 
     $ pytest
-
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html#sass-compilation-live-reloading).
-
 ### Sentry
 
 Sentry is an error logging aggregator service. You can sign up for a free account at <https://sentry.io/signup> or download and host it yourself.
@@ -64,3 +55,31 @@ The following details how to deploy this application.
 ### Docker
 
 See detailed [Django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
+
+##### Common Commands
+
+> You will need to build the stack first. To do that, run:
+
+`docker compose -f production.yml build`
+
+> Once this is ready, you can run it with:
+
+`docker compose -f production.yml up`
+> To run the stack and detach the containers, run:
+
+`docker compose -f production.yml up -d`
+> To run a migration, open up a second terminal and run:
+
+`docker compose -f production.yml run --rm django python manage.py migrate`
+> To create a superuser, run:
+
+`docker compose -f production.yml run --rm django python manage.py createsuperuser`
+> If you need a shell, run:
+
+`docker compose -f production.yml run --rm django python manage.py shell`
+> To check the logs out, run:
+
+`docker compose -f production.yml logs`
+> If you want to scale your application, run:
+
+`docker compose -f production.yml up --scale django=4`
