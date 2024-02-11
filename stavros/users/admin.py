@@ -4,15 +4,22 @@ from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import decorators, get_user_model
 from django.utils.translation import gettext_lazy as _
 
+from stavros.users import models
 from stavros.users.forms import UserAdminChangeForm, UserAdminCreationForm
-from stavros.users.models import Announcement, Contact, Event, Organization, Tag
 
-User = get_user_model()
+User: models.User = get_user_model()
 
 if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
     # Force the `admin` sign in process to go through the `django-allauth` workflow:
     # https://docs.allauth.org/en/latest/common/admin.html#admin
     admin.site.login = decorators.login_required(admin.site.login)  # type: ignore[method-assign]
+
+
+class StudentProfileInline(admin.StackedInline):
+    model = models.StudentProfile
+    can_delete = False
+    fk_name = "user"
+    verbose_name_plural = "student profile"
 
 
 @admin.register(User)
@@ -48,11 +55,12 @@ class UserAdmin(auth_admin.UserAdmin):
             },
         ),
     )
+    inlines = [StudentProfileInline]
 
 
 admin.site.site_header = "Stavros Administration"
-admin.site.register(Event)
-admin.site.register(Organization)
-admin.site.register(Announcement)
-admin.site.register(Tag)
-admin.site.register(Contact)
+admin.site.register(models.Event)
+admin.site.register(models.Organization)
+admin.site.register(models.Announcement)
+admin.site.register(models.Tag)
+admin.site.register(models.Contact)

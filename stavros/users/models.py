@@ -5,20 +5,24 @@ from django.core.validators import RegexValidator
 from django.db.models import (
     CASCADE,
     CharField,
+    CheckConstraint,
     DateTimeField,
     EmailField,
     ForeignKey,
     ManyToManyField,
     Model,
+    Q,
     SlugField,
     TextField,
 )
+from django.db.models.fields import IntegerField, URLField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from location_field.forms.plain import PlainLocationField
 from slugify.slugify import slugify
 
 from stavros.users.managers import UserManager
+from stavros.users.utils.choices import COURSE_OPTIONS, ORGANIZATION_TYPES
 
 
 class User(AbstractUser):
@@ -40,8 +44,17 @@ class User(AbstractUser):
     subscribed_tags = ManyToManyField("Tag")
     subscribed_organizations = ManyToManyField("Organization")
     contacts = ManyToManyField("Contact", blank=True, related_name="contacts")
-
+    # is teacher is if they are in the teacher group
     objects: ClassVar[UserManager] = UserManager()
+
+    class Meta:
+        # user cannot be teacher and student
+        constraints = [
+            CheckConstraint(
+                check=Q(is_student=True) | Q(is_teacher=True),
+                name="teacher_or_student",
+            )
+        ]
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.
@@ -51,6 +64,31 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"pk": self.id})
+
+
+class Class(Model):
+    name = CharField(max_length=255)
+    subject = CharField(max_length=255, choices=COURSE_OPTIONS)
+    grade_level = IntegerField(choices=[(i, i) for i in range(9, 13)])
+    teacher = ForeignKey(User, on_delete=CASCADE, related_name="classes_teaching")
+    students = ManyToManyField(User, related_name="classes_attending", blank=True)
+
+
+class StudentProfile(Model):
+    user = ForeignKey(User, on_delete=CASCADE, related_name="student_profile")
+    birth_date = DateTimeField()
+    graduating_year = CharField(max_length=255, choices=[(i, i) for i in range(2022, 2030)])
+    student_id = CharField(unique=True, max_length=9)  # 9 digit student id
+    notes = TextField()
+    guidance_counselor = ForeignKey(User, on_delete=CASCADE, related_name="students", null=True, blank=True)
+    classes_taken = ManyToManyField("Class")
+
+
+class Resource(Model):
+    title = CharField(max_length=255)
+    additional_info = TextField()
+    link = URLField(null=True, blank=True)
+    tags = ManyToManyField("Tag", related_name="resources")
 
 
 class Contact(Model):
@@ -85,9 +123,9 @@ class Announcement(Model):
 class Organization(Model):
     name = CharField(max_length=200)
     slug = SlugField(unique=True, editable=False, null=True, blank=True)
-    industry = CharField(max_length=255)
+    category = CharField(max_length=255, choices=[(i, i) for i in ORGANIZATION_TYPES])
     event_type = CharField(max_length=255)
-    resources = TextField()
+    resources = ManyToManyField("Resource", related_name="organizations", blank=True)
     contacts = ManyToManyField("Contact", blank=True)
     tags = ManyToManyField("Tag", related_name="organizations")
 
