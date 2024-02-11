@@ -16,6 +16,7 @@ if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
 
 
 class StudentProfileInline(admin.StackedInline):
+    max_num = 1  # only allow one student profile per user.
     model = models.StudentProfile
     can_delete = False
     fk_name = "user"
