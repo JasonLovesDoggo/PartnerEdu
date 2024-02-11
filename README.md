@@ -47,10 +47,20 @@ Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readt
 
 ### Sentry
 
-Sentry is an error logging aggregator service. You can sign up for a free account at <https://sentry.io/signup/?code=cookiecutter> or download and host it yourself.
+Sentry is an error logging aggregator service. You can sign up for a free account at <https://sentry.io/signup> or download and host it yourself.
 The system is set up with reasonable defaults, including 404 logging and integration with the WSGI application.
 
 You must set the DSN url in production.
+
+## Setup
+
+1. Clone the repo
+2. Create a virtual environment with `python3 -m virtualenv venv`
+3. Activate the virtual environment with `source venv/bin/activate` on Linux or `.\venv\Scripts\activate` on Windows
+4. Install the requirements with `pip install -r requirements/local.txt`
+5. Run the migrations with `python manage.py migrate`
+6. Create a superuser with `python manage.py createsuperuser`
+7. Run the server with `python manage.py runserver`
 
 ## Deployment
 
@@ -58,4 +68,4 @@ The following details how to deploy this application.
 
 ### Docker
 
-See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
+See detailed [Django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
