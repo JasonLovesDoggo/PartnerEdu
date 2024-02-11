@@ -22,7 +22,7 @@ from location_field.forms.plain import PlainLocationField
 from slugify.slugify import slugify
 
 from stavros.users.managers import UserManager
-from stavros.users.utils.choices import COURSE_OPTIONS, ORGANIZATION_TYPES
+from stavros.users.utils.choices import COURSE_OPTIONS, ORGANIZATION_TYPES, POSITIONS
 
 
 class User(AbstractUser):
@@ -77,11 +77,13 @@ class Class(Model):
 class StudentProfile(Model):
     user = ForeignKey(User, on_delete=CASCADE, related_name="student_profile")
     birth_date = DateTimeField()
+    address = PlainLocationField()
     graduating_year = CharField(max_length=255, choices=[(i, i) for i in range(2022, 2030)])
     student_id = CharField(unique=True, max_length=9)  # 9 digit student id
-    notes = TextField()
+    notes = TextField(blank=True, null=True)
     guidance_counselor = ForeignKey(User, on_delete=CASCADE, related_name="students", null=True, blank=True)
     classes_taken = ManyToManyField("Class")
+    parental_contact = ForeignKey("Contact", on_delete=CASCADE, related_name="children", null=True, blank=True)
 
 
 class Resource(Model):
@@ -92,17 +94,16 @@ class Resource(Model):
 
 
 class Contact(Model):
+    internal_name = CharField(max_length=255)
     user = ForeignKey(User, on_delete=CASCADE, related_name="info")
-    position = CharField(max_length=255)
+    company_position = CharField(max_length=255, blank=True, choices=POSITIONS)
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,15}$",  # only allow proper phone numbers to be entered
         message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
     )
+    notes = TextField(blank=True, null=True)
     phone_number = CharField(validators=[phone_regex], max_length=17, blank=True)
-    name = CharField(max_length=255)
-    industry = CharField(max_length=255)
-    event_type = CharField(max_length=255)
-    resources = TextField()
+    industry = CharField(max_length=255, blank=True)
     tags = ManyToManyField("Tag", blank=True, related_name="contacts")
 
 
