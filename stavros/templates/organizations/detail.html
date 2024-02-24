@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ organization.name|title }}
+{% endblock title %}
+{% block content %}
+  <h1>{{ organization.name }}</h1>
+  <p>Category: {{ organization.category }}</p>
+  <p>Event Type: {{ organization.event_type }}</p>
+  <h2>Resources</h2>
+  {% for resource in organization.resources.all %}<p>{{ resource.title }}</p>{% endfor %}
+  <h2>Contacts</h2>
+  {% for contact in organization.contacts.all %}<p>{{ contact.internal_name }}</p>{% endfor %}
+  <h2>Tags</h2>
+  {% for tag in organization.tags.all %}<p>{{ tag.name }}</p>{% endfor %}
+{% endblock content %}

@@ -13,7 +13,7 @@ from django.db.models import (
     SlugField,
     TextField,
 )
-from django.db.models.fields import IntegerField, URLField
+from django.db.models.fields import IntegerField, PositiveIntegerField, URLField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from location_field.forms.plain import PlainLocationField
@@ -223,6 +223,10 @@ class Event(Model):
     tags = ManyToManyField("Tag", related_name="events")
     # The users who are attending the event.
     attendees = ManyToManyField(User, related_name="events", blank=True)
+    # The max amount of attendees for the event. If None, there is no limit.
+    max_attendees = PositiveIntegerField(null=True, blank=True)
+    # The price associated with the event. If None, the event is free.
+    price = PositiveIntegerField(null=True, blank=True)
 
 
 class Tag(Model):

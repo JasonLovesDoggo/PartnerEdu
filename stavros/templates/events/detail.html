@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Event: {{ event.name|title }}
+{% endblock title %}
+{% block content %}
+  <h1>{{ event.name }}</h1>
+  <p>Information: {{ event.info }}</p>
+  <p>Start Date: {{ event.start_date }}</p>
+  <p>End Date: {{ event.end_date }}</p>
+  <p>Organization: {{ event.organization.name }}</p>
+  <p>City: {{ event.city }}</p>
+  <p>Location: {{ event.location }}</p>
+  <p>Attendees: {{ event.max_attendees }}/{{ event.attendees.count }}</p>
+  <p>Price: {{ event.price }}</p>
+  <h2>Tags</h2>
+  {% for tag in event.tags.all %}<p>{{ tag.name }}</p>{% endfor %}
+  <h2>Attendees</h2>
+  {% for attendee in event.attendees.all %}<p>{{ attendee.name }}</p>{% endfor %}
+{% endblock content %}

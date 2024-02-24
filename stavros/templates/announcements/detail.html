@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Announcement: {{ announcement.title }}
+{% endblock title %}
+{% block content %}
+  <h1>{{ announcement.title }}</h1>
+  <p>Posted on: {{ announcement.date_posted }}</p>
+  <p>By: {{ announcement.organization.name }}</p>
+  <p>{{ announcement.content }}</p>
+  <h2>Tags</h2>
+  {% for tag in announcement.tags.all %}{% endfor %}
+  <p>{{ tag.name }}</p>
+{% endblock content %}

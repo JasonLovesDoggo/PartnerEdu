@@ -78,7 +78,7 @@ class EventListView(ListView):
     """
 
     model = Event  # The model being used is the Event model
-    template_name = "event_list.html"  # The template used for this view is 'event_list.html'
+    template_name = "events/list.html"  # The template used for this view is 'event_list.html'
     context_object_name = "events"  # The name of the variable to be used in the template context is 'events'
     paginate_by = 10  # The number of events displayed per page is 10
 
@@ -113,7 +113,7 @@ class EventDetailView(DetailView):
     """
 
     model = Event  # The model being used is the Event model
-    template_name = "event_detail.html"  # The template used for this view is 'event_detail.html'
+    template_name = "events/detail.html"  # The template used for this view is 'event_detail.html'
 
     def get_object(self, queryset=None):
         """
@@ -129,7 +129,7 @@ class OrganizationListView(ListView):
     """
 
     model = Organization  # The model being used is the Organization model
-    template_name = "organization_list.html"  # The template used for this view is 'organization_list.html'
+    template_name = "organizations/list.html"  # The template used for this view is 'organization_list.html'
     context_object_name = (
         "organizations"  # The name of the variable to be used in the template context is 'organizations'
     )
@@ -148,7 +148,7 @@ class OrganizationDetailView(DetailView):
     """
 
     model = Organization  # The model being used is the Organization model
-    template_name = "organization_detail.html"  # The template used for this view is 'organization_detail.html'
+    template_name = "organizations/detail.html"  # The template used for this view is 'organization_detail.html'
 
     def get_object(self, queryset=None):
         """
@@ -164,7 +164,7 @@ class AnnouncementListView(ListView):
     """
 
     model = Event  # The model being used is the Event model
-    template_name = "announcement_list.html"  # The template used for this view is 'announcement_list.html'
+    template_name = "announcements/list.html"  # The template used for this view is 'announcement_list.html'
     context_object_name = (
         "announcements"  # The name of the variable to be used in the template context is 'announcements'
     )
@@ -186,7 +186,7 @@ class AnnouncementDetailView(DetailView):
     """
 
     model = Event  # The model being used is the Event model
-    template_name = "announcement_detail.html"  # The template used for this view is 'announcement_detail.html'
+    template_name = "announcements/detail.html"  # The template used for this view is 'announcement_detail.html'
 
     def get_object(self, queryset=None):
         """
