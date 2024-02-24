@@ -1,11 +1,12 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Case, F, IntegerField, When
 from django.db.models.fields import DurationField
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -116,6 +117,20 @@ class EventDetailView(DetailView):
 
     model = Event  # The model being used is the Event model
     template_name = "events/detail.html"  # The template used for this view is 'event_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        """
+        This method handles the GET request.
+        """
+        if "msg" in request.session and request.session["msg"] is not None:
+            if "msg_err" in request.session:
+                del request.session["msg_err"]
+                messages.warning(request, request.session["msg"])
+            else:
+                messages.success(request, request.session["msg"])
+            del request.session["msg"]
+
+        return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         """
@@ -232,3 +247,43 @@ class MapView(View):
         ]  # Get the name, latitude, longitude, and index of all organizations
         context = {"locations": json.dumps(locations)}  # Convert the locations to JSON and add them to the context
         return render(request, "core/map_view.html", context)  # Render the map with the given context
+
+
+# Action views
+
+
+def leave_event(request, pk):
+    """
+    This view is for allowing the user to leave an event.
+    """
+    event = get_object_or_404(Event, pk=pk)  # Get the event with the given primary key
+    try:
+        request.user.events.remove(event)  # Remove the user from the event
+    except Exception:
+        request.session["msg"] = "You are not in the event"
+        request.session["msg_err"] = True
+        return redirect("users:event_detail", pk=pk)
+    # return a 200 to indicate success
+    request.session["msg"] = "You left the event"
+    return redirect("users:event_detail", pk=pk)
+
+
+def join_event(request, pk):
+    """
+    This view is for allowing the user to join an event.
+    """
+    event = get_object_or_404(Event, pk=pk)  # Get the event with the given primary key
+    if event.max_attendees is None or event.max_attendees > event.attendees.count():
+        print(event.attendees.count())
+        try:
+            request.user.events.add(event)  # Add the user to the event
+        except Exception:
+            request.session["msg"] = "You are already in the event"
+            request.session["msg_err"] = True
+            return redirect("users:event_detail", pk=pk)
+        # return a 200 to indicate success
+        request.session["msg"] = "You joined the event"
+        return redirect("users:event_detail", pk=pk)
+    else:
+        request.session["msg"] = "Event is full"
+        return redirect("users:event_detail", pk=pk)

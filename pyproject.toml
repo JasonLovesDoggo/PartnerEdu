@@ -85,6 +85,7 @@ generated-members = [
 
 # ==== djLint ====
 [tool.djlint]
+
 blank_line_after_tag = "load,extends"
 close_void_tags = true
 format_css = true

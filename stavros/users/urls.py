@@ -12,6 +12,8 @@ from stavros.users.views import (
     UserDetailView,
     UserRedirectView,
     UserUpdateView,
+    join_event,
+    leave_event,
 )
 
 app_name = "users"
@@ -27,4 +29,6 @@ urlpatterns = [
     path("recent/", view=AnnouncementListView.as_view(), name="announcement_list"),
     path("announcement/<slug:slug>/", view=AnnouncementDetailView.as_view(), name="announcement_detail"),
     path("map", view=MapView.as_view(), name="map"),
+    path("event/join/<int:pk>/", view=join_event, name="event_join"),
+    path("event/leave/<int:pk>/", view=leave_event, name="event_leave"),
 ]

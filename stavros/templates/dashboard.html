@@ -6,45 +6,34 @@
   Stravos: Dashboard
 {% endblock title %}
 {% block content %}
-  {% compress js %}
-    <script defer>
+  <!-- djlint:off -->
+              {% compress js %}
+                <script defer>
+
       navigator.geolocation.getCurrentPosition(function(position) {
         const user_latitude = position.coords.latitude;
         const user_longitude = position.coords.longitude;
 
-        {
-          %
-          for event in events %
-        }
+        {% for event in events %}
         // Call the Django view that uses the `calculate_distance` template tag here.
         $.ajax({
           url: '/api/distance/', // The URL of the Django view
           data: {
             'user_latitude': user_latitude,
             'user_longitude': user_longitude,
-            'event_latitude': {
-              {
-                event.location.latitude
-              }
-            }, // Replace with the actual event latitude
-            'event_longitude': {
-              {
-                event.location.longitude
-              }
-            }, // Replace with the actual event longitude
+            'event_latitude': {{ event.location.latitude }}, // Replace with the actual event latitude
+            'event_longitude': {{ event.location.longitude }}, // Replace with the actual event longitude
           },
           success: function(data) {
             // Display the calculated distance on the page
             $('#distance-{{ event.id }}').text(data.distance + ' KM.');
           }
         });
-        {
-          %
-          endfor %
-        }
+        {% endfor %}
       });
-    </script>
-  {% endcompress %}
+  </script>
+              {% endcompress %}
+  <!-- djlint:on -->
   <div class="container">
     <div class="row">
       <div class="col-md-12">
