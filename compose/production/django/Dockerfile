@@ -13,7 +13,11 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   build-essential \
   # psycopg3 dependencies \
   libpq5 \
-  libpq-dev
+  libpq-dev \
+  # gdal dependencies
+  binutils \
+  libproj-dev  \
+  gdal-bin
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements .
