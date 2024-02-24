@@ -1,9 +1,50 @@
 {% extends "base.html" %}
 
+{% load compress static %}
+
 {% block title %}
   Stravos: Dashboard
 {% endblock title %}
 {% block content %}
+  {% compress js %}
+    <script defer>
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const user_latitude = position.coords.latitude;
+        const user_longitude = position.coords.longitude;
+
+        {
+          %
+          for event in events %
+        }
+        // Call the Django view that uses the `calculate_distance` template tag here.
+        $.ajax({
+          url: '/api/distance/', // The URL of the Django view
+          data: {
+            'user_latitude': user_latitude,
+            'user_longitude': user_longitude,
+            'event_latitude': {
+              {
+                event.location.latitude
+              }
+            }, // Replace with the actual event latitude
+            'event_longitude': {
+              {
+                event.location.longitude
+              }
+            }, // Replace with the actual event longitude
+          },
+          success: function(data) {
+            // Display the calculated distance on the page
+            $('#distance-{{ event.id }}').text(data.distance + ' KM.');
+          }
+        });
+        {
+          %
+          endfor %
+        }
+      });
+    </script>
+  {% endcompress %}
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -26,12 +67,12 @@
             </tr>
           </thead>
           <tbody>
-            {% for activity in activities %}
+            {% for event in events %}
               <tr>
-                <td>{{ activity.start_date_local|date:'d/m/Y' }}</td>
-                <td>{{ activity.name }}</td>
-                <td>{{ activity.distance|floatformat:2 }} km</td>
-                <td>{{ activity.moving_time|floatformat:2 }} minutes</td>
+                <td>{{ event.start_date_local|date:'d/m/Y' }}</td>
+                <td>{{ event.name }}</td>
+                <td id="distance-{{ event.id }}">calculating...</td>
+                {% comment %}Calculating gets replaced by the real location{% endcomment %}
               </tr>
             {% endfor %}
           </tbody>

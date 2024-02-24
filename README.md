@@ -83,3 +83,16 @@ See detailed [Django Docker documentation](http://cookiecutter-django.readthedoc
 > If you want to scale your application, run:
 
 `docker compose -f production.yml up --scale django=4`
+
+##### Backups
+Creating a backup:
+
+`docker compose -f production.yml exec postgres backup`
+
+Listing backups:
+
+` docker compose -f production.yml  exec postgres backups`
+
+Restoring a backup:
+
+`docker compose -f production.yml exec postgres restore backup_name.sql.gz`

@@ -16,7 +16,8 @@ urlpatterns = [
     path("", include("stavros.users.urls")),
     path("accounts/", include("allauth.urls")),
     path("", include("django.contrib.flatpages.urls")),
-    # Your stuff: custom urls includes go here
+    # API URLS
+    path("api/", include("stavros.users.api_views")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

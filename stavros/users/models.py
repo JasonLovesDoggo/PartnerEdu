@@ -1,7 +1,8 @@
+from decimal import Decimal
 from typing import ClassVar
 
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import RegexValidator
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db.models import (
     CASCADE,
     CharField,
@@ -13,10 +14,10 @@ from django.db.models import (
     SlugField,
     TextField,
 )
-from django.db.models.fields import IntegerField, PositiveIntegerField, URLField
+from django.db.models.fields import DecimalField, IntegerField, PositiveIntegerField, URLField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from location_field.forms.plain import PlainLocationField
+from location_field.models.plain import PlainLocationField
 from slugify.slugify import slugify
 
 from stavros.users.managers import UserManager
@@ -257,10 +258,8 @@ class Event(Model):
     end_date = DateTimeField()
     # The organization that is hosting the event.
     organization = ForeignKey(Organization, on_delete=CASCADE, related_name="events")
-    # The city where the event is taking place.
-    city = CharField(max_length=40)
     # The location of the event.
-    location = PlainLocationField(based_fields=["city"], zoom=7)
+    location = PlainLocationField()
     # The tags associated with the event.
     tags = ManyToManyField("Tag", related_name="events")
     # The users who are attending the event.
@@ -268,7 +267,13 @@ class Event(Model):
     # The max amount of attendees for the event. If None, there is no limit.
     max_attendees = PositiveIntegerField(null=True, blank=True)
     # The price associated with the event. If None, the event is free.
-    price = PositiveIntegerField(null=True, blank=True)
+    price = DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal("0"))], default=0.00)
+
+    def __str__(self) -> str:
+        """
+        This method returns the name of the event.
+        """
+        return self.name
 
 
 class Tag(Model):
