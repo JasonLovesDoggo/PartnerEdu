@@ -4,12 +4,14 @@
   Announcement Listings
 {% endblock title %}
 {% block content %}
-  {% for announcement in announcements %}{% endfor %}
-  <div class="announcement">
-    <h2>
-      <a href="{% url 'announcement_detail' announcement.slug %}">{{ announcement.title }}</a>
-    </h2>
-    <p>Posted on: {{ announcement.date_posted }}</p>
-    <p>By: {{ announcement.organization.name }}</p>
-  </div>
+  {% for announcement in announcements %}
+    <div class="announcement">
+      <h2>
+        <a href="{% url 'announcement_detail' announcement.slug %}">{{ announcement.title }}</a>
+      </h2>
+      <p>Posted on: {{ announcement.date_posted }}</p>
+      <p>By: {{ announcement.organization.name }}</p>
+    </div>
+  {% endfor %}
+  {% if not events %}<p>There are no announcements available.</p>{% endif %}
 {% endblock content %}

@@ -15,4 +15,7 @@
       <p>Event Type: {{ organization.event_type }}</p>
     </div>
   {% endfor %}
+  {% if not organizations %}
+    <p>There are no organizations in the database. Please contact support if you believe this to be unexpected.</p>
+  {% endif %}
 {% endblock content %}

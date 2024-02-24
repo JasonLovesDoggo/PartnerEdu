@@ -7,10 +7,11 @@
   {% for event in events %}
     <div class="event">
       <h2>
-        <a href="{% url 'event_detail' event.id %}">{{ event.name }}</a>
+        <a href="{% url 'users:event_detail' event.id %}">{{ event.name }}</a>
       </h2>
-      <p>{{ event.date }} at {{ event.time }}</p>
+      <p>{{ event.start_date }} to {{ event.end_date }}</p>
       <p>{{ event.location }}</p>
     </div>
   {% endfor %}
+  {% if not events %}<h3>There are no events to display.</h3>{% endif %}
 {% endblock content %}

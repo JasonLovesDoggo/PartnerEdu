@@ -90,15 +90,17 @@ class EventListView(ListView):
         queryset = (
             Event.objects.annotate(
                 relevance=Case(
-                    When(date__gte=now, then=1),
-                    When(date__lt=now, then=2),
+                    When(start_date__lte=now, end_date__gte=now, then=1),
+                    When(start_date__gt=now, then=2),
+                    When(end_date__lt=now, then=3),
                     output_field=IntegerField(),
                 )
             )
             .annotate(
                 timediff=Case(
-                    When(date__gte=now, then=F("date") - now),
-                    When(date__lt=now, then=now - F("date")),
+                    When(start_date__gt=now, then=F("start_date") - now),
+                    When(end_date__lt=now, then=now - F("end_date")),
+                    default=0,
                     output_field=DurationField(),
                 )
             )
@@ -175,7 +177,7 @@ class AnnouncementListView(ListView):
         This method returns the queryset to be used for the list view.
         """
         return Announcement.objects.filter(date_posted__lte=timezone.now()).order_by(
-            "-date"
+            "-date_posted"
         )  # Return all Announcement objects that were posted before the current time, \
         # ordered by date in descending order
 
