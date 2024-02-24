@@ -15,7 +15,6 @@
   <h2>Tags</h2>
   {% for tag in event.tags.all %}<p>{{ tag.name }}</p>{% endfor %}
   <h2>Attendees</h2>
-  {% for attendee in event.attendees.all %}<p>{{ attendee.name }}</p>{% endfor %}
   {% if user.is_authenticated %}
     {% if user in event.attendees.all %}
       <form action="{% url 'users:event_leave' event.id %}" method="post">
