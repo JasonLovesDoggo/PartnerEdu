@@ -7,28 +7,46 @@
 {% endblock title %}
 {% block content %}
   <!-- djlint:off -->
-              {% compress js %}
-                <script defer>
-
-      navigator.geolocation.getCurrentPosition(function(position) {
+{% compress js %}
+  <script defer>
+    const url = '/api/distance/';
+    navigator.geolocation.getCurrentPosition(function(position) {
         const user_latitude = position.coords.latitude;
         const user_longitude = position.coords.longitude;
-
+        console.log('User latitude: ' + user_latitude);
         {% for event in events %}
         // Call the Django view that uses the `calculate_distance` template tag here.
-        $.ajax({
-          url: '/api/distance/', // The URL of the Django view
-          data: {
+          let event_latitude = "{{ event.location }}".split(",")[0];
+          let event_longitude = "{{ event.location }}".split(",")[1];
+          // Define the URL of the Django view
+          // Prepare the data to be sent in the request
+          let data = {
             'user_latitude': user_latitude,
             'user_longitude': user_longitude,
-            'event_latitude': {{ event.location.latitude }}, // Replace with the actual event latitude
-            'event_longitude': {{ event.location.longitude }}, // Replace with the actual event longitude
-          },
-          success: function(data) {
-            // Display the calculated distance on the page
-            $('#distance-{{ event.id }}').text(data.distance + ' KM.');
-          }
-        });
+            'event_latitude': event_latitude,
+            'event_longitude': event_longitude
+          };
+
+          // Define the options for the fetch request
+          let options = {
+            method: 'POST', // Adjust the method if necessary
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          };
+
+          // Make the fetch request
+          fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+              // Display the calculated distance on the page
+              document.getElementById('distance-' + {{ event.id }}).textContent = parseFloat(data.distance).toFixed(3) + ' KM';
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+
         {% endfor %}
       });
   </script>
@@ -52,13 +70,12 @@
               <th>Date</th>
               <th>Activity</th>
               <th>Distance</th>
-              <th>Time</th>
             </tr>
           </thead>
           <tbody>
             {% for event in events %}
               <tr>
-                <td>{{ event.start_date_local|date:'d/m/Y' }}</td>
+                <td>{{ event.start_date|date:'d/m' }} - {{ event.end_date|date:'d/m' }}</td>
                 <td>{{ event.name }}</td>
                 <td id="distance-{{ event.id }}">calculating...</td>
                 {% comment %}Calculating gets replaced by the real location{% endcomment %}
