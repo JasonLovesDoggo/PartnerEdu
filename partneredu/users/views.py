@@ -153,10 +153,11 @@ class OrganizationListView(ListView):
     paginate_by = 10  # The number of organizations displayed per page is 10
 
     def get_queryset(self):
-        """
-        This method returns the queryset to be used for the list view.
-        """
-        return Organization.objects.all()  # Return all Organization objects
+        name = self.request.GET.get("q", "")
+        object_list = self.model.objects.all()
+        if name:
+            object_list = object_list.filter(name__icontains=name)
+        return object_list
 
 
 class OrganizationDetailView(DetailView):

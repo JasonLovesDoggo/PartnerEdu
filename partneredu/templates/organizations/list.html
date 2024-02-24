@@ -4,6 +4,13 @@
   Organization Listings
 {% endblock title %}
 {% block content %}
+  <div>
+    <span>Search</span>
+  <form method='GET'>
+    <input type='text' name='q' value='{{ request.GET.q }}'/>
+    <input class="button" type='submit' value="Search Profile"/>
+  </form>
+  </div>
   {% for organization in organizations %}
     <div class="organization">
       <h2>
@@ -13,7 +20,27 @@
       <p>Event Type: {{ organization.event_type }}</p>
     </div>
   {% endfor %}
+  {% if page_obj.has_previous or page_obj.has_next %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
+      {% endif %}
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
   {% if not organizations %}
-    <p>There are no organizations in the database. Please contact support if you believe this to be unexpected.</p>
+    {% if request.GET.q %}
+    <h4>No organizations found for "{{ request.GET.q }}". Please change your search term.</h4>
+    {% else %}
+    <h4>There are no organizations in the database. Please contact support if you believe this to be unexpected.</h4>
+    {% endif %}
   {% endif %}
 {% endblock content %}
