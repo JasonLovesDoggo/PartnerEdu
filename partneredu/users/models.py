@@ -218,14 +218,26 @@ class Organization(Model):
     slug = SlugField(unique=True, editable=False, null=True, blank=True)
     # The category of the organization.
     category = CharField(max_length=255, choices=[(i, i) for i in ORGANIZATION_TYPES])
-    # The type of events the organization hosts.
-    event_type = CharField(max_length=255)
     # The resources associated with the organization.
     resources = ManyToManyField("Resource", related_name="organizations", blank=True)
     # The contacts associated with the organization.
     contacts = ManyToManyField("Contact", blank=True)
+    phone_regex = RegexValidator(
+        regex=r"^\+?1?\d{9,15}$",  # only allow proper phone numbers to be entered
+        message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
+    )
+    # The phone number of the organization.
+    phone_number = CharField(validators=[phone_regex], max_length=17, blank=True)
+    # The website of the organization.
+    website = URLField(blank=True)
+    # the email of the organization.
+    email = EmailField(blank=True)
     # The tags associated with the organization.
     tags = ManyToManyField("Tag", related_name="organizations")
+    # The description of the organization.
+    description = TextField(max_length=500, blank=True, null=True)
+    # The location of the organization's HQ.
+    location = PlainLocationField()
 
     def save(self, *args, **kwargs):
         """
