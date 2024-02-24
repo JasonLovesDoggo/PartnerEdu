@@ -58,6 +58,12 @@ class User(AbstractUser):
         """
         return reverse("users:detail", kwargs={"pk": self.id})
 
+    def __str__(self) -> str:
+        """
+        This method returns the name of the user.
+        """
+        return self.name or self.email
+
 
 class Class(Model):
     """
@@ -74,6 +80,12 @@ class Class(Model):
     teacher = ForeignKey(User, on_delete=CASCADE, related_name="classes_teaching")
     # The students attending the class.
     students = ManyToManyField("StudentProfile", related_name="classes_attending", blank=True)
+
+    def __str__(self) -> str:
+        """
+        This method returns the name of the class.
+        """
+        return f"{self.teacher.get_full_name()} - {self.name}"
 
 
 class StudentProfile(Model):
@@ -100,6 +112,12 @@ class StudentProfile(Model):
     # The contact information of the student's parents.
     parental_contact = ForeignKey("Contact", on_delete=CASCADE, related_name="children", null=True, blank=True)
 
+    def __str__(self) -> str:
+        """
+        This method returns the name of the student.
+        """
+        return self.student_id
+
 
 class Resource(Model):
     """
@@ -114,6 +132,12 @@ class Resource(Model):
     link = URLField(null=True, blank=True)
     # The tags associated with the resource.
     tags = ManyToManyField("Tag", related_name="resources")
+
+    def __str__(self) -> str:
+        """
+        This method returns the title of the resource.
+        """
+        return self.title
 
 
 class Contact(Model):
@@ -140,6 +164,12 @@ class Contact(Model):
     industry = CharField(max_length=255, blank=True)
     # The tags associated with the contact.
     tags = ManyToManyField("Tag", blank=True, related_name="contacts")
+
+    def __str__(self) -> str:
+        """
+        This method returns the internal name of the contact.
+        """
+        return self.user.get_full_name()
 
 
 class Announcement(Model):
@@ -168,6 +198,12 @@ class Announcement(Model):
         if not self.id or not self.slug:  # only on creation
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        """
+        This method returns the title of the announcement.
+        """
+        return self.title
 
 
 class Organization(Model):
@@ -198,6 +234,12 @@ class Organization(Model):
         if not self.id or not self.slug:  # only on creation
             self.slug = slugify(self.name)  # replace spaces with hyphens and other unicode changes.
         super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        """
+        This method returns the name of the organization.
+        """
+        return self.name
 
 
 class Event(Model):
@@ -236,3 +278,9 @@ class Tag(Model):
 
     # The name of the tag.
     name = CharField(max_length=255)
+
+    def __str__(self) -> str:
+        """
+        This method returns the name of the tag.
+        """
+        return self.name
