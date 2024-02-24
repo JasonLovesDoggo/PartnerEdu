@@ -35,9 +35,11 @@
           </div>
         {% endfor %}
         <div class="form-group">
-          <button class="secondaryAction btn btn-primary"
-                  type="submit"
-                  name="action_primary">{% translate "Make Primary" %}</button>
+          {% if user.emailaddress_set.count > 1 %}
+            <button class="secondaryAction btn btn-primary"
+                    type="submit"
+                    name="action_primary">{% translate "Make Primary" %}</button>
+          {% endif %}
           <button class="secondaryAction btn btn-primary"
                   type="submit"
                   name="action_send">{% translate "Re-send Verification" %}</button>
