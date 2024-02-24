@@ -3,7 +3,7 @@ import django.contrib.auth.validators
 import django.utils.timezone
 from django.db import migrations, models
 
-import stavros.users.models
+import partneredu.users.models
 
 
 class Migration(migrations.Migration):
@@ -97,7 +97,7 @@ class Migration(migrations.Migration):
                 "abstract": False,
             },
             managers=[
-                ("objects", stavros.users.models.UserManager()),
+                ("objects", partneredu.users.models.UserManager()),
             ],
         ),
     ]

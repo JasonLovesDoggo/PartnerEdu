@@ -1,16 +1,16 @@
 version: '3'
 
 volumes:
-  stavros_local_postgres_data: {}
-  stavros_local_postgres_data_backups: {}
+  partneredu_local_postgres_data: {}
+  partneredu_local_postgres_data_backups: {}
 
 services:
   django:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: stavros_local_django
-    container_name: stavros_local_django
+    image: partneredu_local_django
+    container_name: partneredu_local_django
     depends_on:
       - postgres
     volumes:
@@ -26,10 +26,10 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: stavros_production_postgres
-    container_name: stavros_local_postgres
+    image: partneredu_production_postgres
+    container_name: partneredu_local_postgres
     volumes:
-      - stavros_local_postgres_data:/var/lib/postgresql/data
-      - stavros_local_postgres_data_backups:/backups
+      - partneredu_local_postgres_data:/var/lib/postgresql/data
+      - partneredu_local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres

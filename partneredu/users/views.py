@@ -13,8 +13,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
-import stavros
-from stavros.users.models import Announcement, Event, Organization
+import partneredu
+from partneredu.users.models import Announcement, Event, Organization
 
 # Get the user model from Django's built-in user model
 User = get_user_model()
@@ -223,7 +223,7 @@ class DashboardView(LoginRequiredMixin, View):
         """
         This method handles the GET request.
         """
-        user: stavros.users.models.User = request.user  # Get the currently logged in user
+        user: partneredu.users.models.User = request.user  # Get the currently logged in user
         context = {
             "user": user,  # The user to be displayed in the dashboard
             "events": user.events.all(),  # The events of the user

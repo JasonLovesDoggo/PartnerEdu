@@ -1,7 +1,7 @@
 import pytest
 
-from stavros.users.models import User
-from stavros.users.tests.factories import UserFactory
+from partneredu.users.models import User
+from partneredu.users.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
-from stavros.templatetags import calculate_distance
+from partneredu.templatetags import calculate_distance
 
 
 @csrf_exempt

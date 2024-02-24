@@ -7,7 +7,7 @@
   {% for organization in organizations %}
     <div class="organization">
       <h2>
-        <a href="{% url 'organization_detail' organization.id %}">{{ organization.name }}</a>
+        <a href="{% url 'users:organization_detail' organization.id %}">{{ organization.name }}</a>
       </h2>
       <p>Category: {{ organization.category }}</p>
       <p>Event Type: {{ organization.event_type }}</p>

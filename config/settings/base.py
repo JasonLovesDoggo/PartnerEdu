@@ -5,8 +5,8 @@ from pathlib import Path
 import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-# stavros/
-APPS_DIR = BASE_DIR / "stavros"
+# partneredu/
+APPS_DIR = BASE_DIR / "partneredu"
 env = environ.Env()
 
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
@@ -76,7 +76,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "stavros.users",
+    "partneredu.users",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -181,7 +181,7 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "stavros.users.context_processors.allauth_settings",
+                "partneredu.users.context_processors.allauth_settings",
             ],
         },
     }
@@ -268,13 +268,13 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_ADAPTER = "stavros.users.adapters.AccountAdapter"
+ACCOUNT_ADAPTER = "partneredu.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
-ACCOUNT_FORMS = {"signup": "stavros.users.forms.UserSignupForm"}
+ACCOUNT_FORMS = {"signup": "partneredu.users.forms.UserSignupForm"}
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_ADAPTER = "stavros.users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "partneredu.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_FORMS = {"signup": "stavros.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_FORMS = {"signup": "partneredu.users.forms.UserSocialSignupForm"}
 # django-compressor
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation

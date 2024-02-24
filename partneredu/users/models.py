@@ -20,8 +20,8 @@ from django.utils.translation import gettext_lazy as _
 from location_field.models.plain import PlainLocationField
 from slugify.slugify import slugify
 
-from stavros.users.managers import UserManager
-from stavros.users.utils.choices import COURSE_OPTIONS, ORGANIZATION_TYPES, POSITIONS
+from partneredu.users.managers import UserManager
+from partneredu.users.utils.choices import COURSE_OPTIONS, ORGANIZATION_TYPES, POSITIONS
 
 
 class User(AbstractUser):

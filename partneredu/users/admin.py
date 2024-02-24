@@ -4,8 +4,8 @@ from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import decorators, get_user_model
 from django.utils.translation import gettext_lazy as _
 
-from stavros.users import models
-from stavros.users.forms import UserAdminChangeForm, UserAdminCreationForm
+from partneredu.users import models
+from partneredu.users.forms import UserAdminChangeForm, UserAdminCreationForm
 
 User: models.User = get_user_model()
 
@@ -59,7 +59,7 @@ class UserAdmin(auth_admin.UserAdmin):
     inlines = [StudentProfileInline]
 
 
-admin.site.site_header = "Stavros Administration"
+admin.site.site_header = "PartneredU Administration"
 admin.site.register(models.Event)
 admin.site.register(models.Organization)
 admin.site.register(models.Announcement)

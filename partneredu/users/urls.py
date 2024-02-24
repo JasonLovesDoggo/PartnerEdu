@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from stavros.users.views import (
+from partneredu.users.views import (
     AnnouncementDetailView,
     AnnouncementListView,
     DashboardView,
@@ -31,5 +31,5 @@ urlpatterns = [
     path("map", view=MapView.as_view(), name="map"),
     path("event/join/<int:pk>/", view=join_event, name="event_join"),
     path("event/leave/<int:pk>/", view=leave_event, name="event_leave"),
-    path("api/", include("stavros.users.api_views")),
+    path("api/", include("partneredu.users.api_views")),
 ]

@@ -6,9 +6,9 @@ from django.http import HttpRequest
 from django.test import RequestFactory
 from django.utils.translation import gettext_lazy as _
 
-from stavros.users.forms import UserAdminChangeForm
-from stavros.users.models import User
-from stavros.users.views import UserRedirectView, UserUpdateView
+from partneredu.users.forms import UserAdminChangeForm
+from partneredu.users.models import User
+from partneredu.users.views import UserRedirectView, UserUpdateView
 
 pytestmark = pytest.mark.django_db
 

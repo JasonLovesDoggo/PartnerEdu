@@ -12,9 +12,9 @@ services:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
 
-    image: stavros_production_django
+    image: partneredu_production_django
     volumes:
-      - production_django_media:/app/stavros/media
+      - production_django_media:/app/partneredu/media
     depends_on:
       - postgres
       - redis
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: stavros_production_postgres
+    image: partneredu_production_postgres
     volumes:
       - production_postgres_data:/var/lib/postgresql/data
       - production_postgres_data_backups:/backups
@@ -42,7 +42,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
-    image: stavros_production_traefik
+    image: partneredu_production_traefik
     depends_on:
       - django
     volumes:
@@ -58,7 +58,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/nginx/Dockerfile
-    image: stavros_local_nginx
+    image: partneredu_local_nginx
     depends_on:
       - django
     volumes:
