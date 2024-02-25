@@ -13,12 +13,13 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   build-essential \
   # psycopg3 dependencies \
   libpq5 \
-  libpq-dev \
+  libpq-dev
   # gdal dependencies
 #  libgdal-dev
 
 #ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 #ENV C_INCLUDE_PATH=/usr/include/gdal
+
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements .
