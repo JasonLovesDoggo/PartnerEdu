@@ -182,7 +182,7 @@ class OrganizationListView(ListView):
                 object_list = object_list.filter(category__in=category)
             if keywords:
                 for keyword in keywords:
-                    object_list = object_list.filter(info__icontains=keyword)
+                    object_list = object_list.filter(description__icontains=keyword)
             if location:
                 # if settings.DEBUG is False:
                 #     lat, lon = location
@@ -191,7 +191,7 @@ class OrganizationListView(ListView):
                 #         distance__lte=D(km=radius)
                 #     )
                 # else:
-                object_list = object_list.filter(info__icontains=location)
+                object_list = object_list.filter(description__icontains=location)
 
         return object_list
 
