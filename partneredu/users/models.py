@@ -13,6 +13,7 @@ from django.db.models import (
     Model,
     SlugField,
     TextField,
+    AutoField,
 )
 from django.db.models.fields import DecimalField, IntegerField, PositiveIntegerField, URLField
 from django.urls import reverse
@@ -211,7 +212,7 @@ class Organization(Model):
     """
     This is the Organization model. It represents an organization.
     """
-
+    id = AutoField(primary_key=True)
     # The name of the organization.
     name = CharField(max_length=200)
     # The unique slug of the organization.
