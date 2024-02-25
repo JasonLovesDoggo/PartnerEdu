@@ -60,3 +60,13 @@ class UserAdmin(auth_admin.UserAdmin):
 
 
 admin.site.site_header = "PartnerEDU Administration"
+admin.site.site_title = "PartnerEDU Admin Portal"
+admin.site.index_title = "Welcome to PartnerEDU Admin Portal"
+
+admin.site.register(models.Event)
+admin.site.register(models.Organization)
+admin.site.register(models.Announcement)
+admin.site.register(models.Tag)
+admin.site.register(models.Contact)
+admin.site.register(models.Class)
+admin.site.register(models.StudentProfile)
