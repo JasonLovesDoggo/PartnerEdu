@@ -4,24 +4,39 @@
 }
 
 .home{
-    margin: 50px;
-}
-
-.left{
-    width: 40vw;
+    height: 80vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .left h1{
     color: var(--brown);
-    font-size: 100px;
+    font-size: 90px;
     font-weight: bold;
     margin: 25px 0;
 }
 
-.left p{
+.left .detail{
+    width: 27em;
+    font-size: 18px;
     font-weight: 600;
 }
 
-.right{
+.get-started{
+    margin-top: 7vh;
+    background-color: var(--brown);
+    border: none;
+    border-radius: 10px;
+}
 
+.get-started p{
+    color: white;
+    font-weight: 400;
+    margin: 7px 25px 10px 25px;
+}
+
+.right{
+    margin: 10vh 0;
 }
