@@ -1,6 +1,5 @@
 import json
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,10 +17,10 @@ import partneredu
 from partneredu.users.forms import OrganizationSearchForm
 from partneredu.users.models import Announcement, Event, Organization
 
-if settings.DEBUG is False:
-    from django.contrib.gis.db.models.functions import Distance
-    from django.contrib.gis.geos import fromstr
-    from django.contrib.gis.measure import D
+# if settings.DEBUG is False:
+#     from django.contrib.gis.db.models.functions import Distance
+#     from django.contrib.gis.geos import fromstr
+#     from django.contrib.gis.measure import D
 
 # Get the user model from Django's built-in user model
 User = get_user_model()
@@ -173,7 +172,7 @@ class OrganizationListView(ListView):
             category = form.cleaned_data.get("category")
             keywords = form.cleaned_data.get("keywords")
             location = form.cleaned_data.get("location")
-            radius = form.cleaned_data.get("radius")
+            # radius = form.cleaned_data.get("radius")
 
             if name:
                 object_list = object_list.filter(name__icontains=name)
@@ -183,14 +182,14 @@ class OrganizationListView(ListView):
                 for keyword in keywords:
                     object_list = object_list.filter(info__icontains=keyword)
             if location:
-                if settings.DEBUG is False:
-                    lat, lon = location
-                    user_location = fromstr(f"POINT({lon} {lat})", srid=4326)
-                    object_list = object_list.annotate(distance=Distance("location", user_location)).filter(
-                        distance__lte=D(km=radius)
-                    )
-                else:
-                    object_list = object_list.filter(info__icontains=location)
+                # if settings.DEBUG is False:
+                #     lat, lon = location
+                #     user_location = fromstr(f"POINT({lon} {lat})", srid=4326)
+                #     object_list = object_list.annotate(distance=Distance("location", user_location)).filter(
+                #         distance__lte=D(km=radius)
+                #     )
+                # else:
+                object_list = object_list.filter(info__icontains=location)
 
         return object_list
 

@@ -15,10 +15,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libpq5 \
   libpq-dev \
   # gdal dependencies
-  libgdal-dev
+#  libgdal-dev
 
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
+#ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+#ENV C_INCLUDE_PATH=/usr/include/gdal
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements .
@@ -52,7 +52,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   # Translations dependencies
   gettext \
   # gdal dependencies
-  libgdal-dev \
+#  libgdal-dev \
   # cleaning up unused files \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
@@ -87,5 +87,6 @@ USER django
 RUN DATABASE_URL="" \
   DJANGO_SETTINGS_MODULE="config.settings.test" \
   python manage.py compilemessages
+
 
 ENTRYPOINT ["/entrypoint"]

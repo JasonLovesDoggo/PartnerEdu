@@ -1,13 +1,10 @@
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
-from django.conf import settings
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
 from django.core import validators
-from django.core.exceptions import ValidationError
-from django.forms import CharField, EmailField, Field, FloatField, MultipleChoiceField, forms
+from django.forms import CharField, EmailField, Field, MultipleChoiceField, forms
 from django.utils.translation import gettext_lazy as _
-from location_field.forms.plain import PlainLocationField
 
 from partneredu.users.utils.choices import ORGANIZATION_TYPES
 
@@ -91,16 +88,16 @@ class OrganizationSearchForm(forms.Form):
         label="Organization type", choices=[(i, i) for i in ORGANIZATION_TYPES], required=False
     )
     keywords = CommaSeparatedCharField(label="Keywords", max_length=100, required=False)
-    if settings.DEBUG is False:
-        location = PlainLocationField(label="Location", required=False)
-        radius = FloatField(label="Radius (in km)", required=False, max_value=1000, min_value=0.1)
-    else:
-        location = CharField(label="Location", required=False)
+    # if settings.DEBUG is False:
+    #     location = PlainLocationField(label="Location", required=False)
+    #     radius = FloatField(label="Radius (in km)", required=False, max_value=1000, min_value=0.1)
+    # else:
+    location = CharField(label="Location", required=False)
 
     def clean(self):
-        if settings.DEBUG is False:
-            location = self.cleaned_data.get("location")
-            radius = self.cleaned_data.get("radius")
-            if location and not radius:
-                raise ValidationError("Please provide a radius.")
+        # if settings.DEBUG is False:
+        #     location = self.cleaned_data.get("location")
+        #     radius = self.cleaned_data.get("radius")
+        #     if location and not radius:
+        #         raise ValidationError("Please provide a radius.")
         return self.cleaned_data
