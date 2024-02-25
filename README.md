@@ -1,6 +1,6 @@
 # PartnerEDU
 
-A CMS for schools
+PartnerEdu is a platform that connects schools with organizations to provide educational experiences for students. It is a project for FBLA's 2024 National Leadership Conference.
 
 ## Basic Commands
 
