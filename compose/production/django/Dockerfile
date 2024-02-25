@@ -15,9 +15,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libpq5 \
   libpq-dev \
   # gdal dependencies
-  binutils \
-  libproj-dev  \
-  gdal-bin
+  libgdal-dev
 
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
@@ -54,9 +52,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   # Translations dependencies
   gettext \
   # gdal dependencies
-  binutils \
-  libproj-dev  \
-  gdal-bin \
+  libgdal-dev \
   # cleaning up unused files \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
