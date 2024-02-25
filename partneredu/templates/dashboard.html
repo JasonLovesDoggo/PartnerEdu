@@ -73,7 +73,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for event in events %}
+            {% for event in events.all %}
               <tr>
                 <td>{{ event.start_date|date:'d/m' }} - {{ event.end_date|date:'d/m' }}</td>
                 <td>{{ event.name }}</td>
