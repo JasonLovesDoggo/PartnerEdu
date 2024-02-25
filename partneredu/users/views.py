@@ -137,7 +137,6 @@ class EventListView(ListView):
             .order_by("relevance", "timediff")
         )
         form = EventSearchForm(self.request.GET)
-        object_list = self.model.objects.all().order_by("-subscribers")
 
         if form.is_valid():
             name = form.cleaned_data.get("name")
