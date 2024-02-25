@@ -109,6 +109,8 @@ class EventListView(ListView):
         """
         This method returns the queryset to be used for the list view.
         """
+        if self.request.GET.get("attendance", None) is not None:
+            return Event.objects.all().order_by("-attendees__count")
         now = timezone.now()  # Get the current time
         queryset = (
             Event.objects.annotate(
@@ -167,7 +169,7 @@ class OrganizationListView(ListView):
 
     def get_queryset(self):
         form = OrganizationSearchForm(self.request.GET)
-        object_list = self.model.objects.all()
+        object_list = self.model.objects.all().order_by("-subscribers__count")
 
         if form.is_valid():
             name = form.cleaned_data.get("name")
