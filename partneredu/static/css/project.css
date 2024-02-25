@@ -6,7 +6,6 @@ body {
   padding-bottom: 20px;
   font-family: 'Chivo', sans-serif !important;
   color: #523911 !important;
-  /*background-image: url('https://media.discordapp.net/attachments/759867023885860934/1031193256433831997/unknown.png');*/
   background-repeat: no-repeat;
   background-size: 100% 150%;
   height: 100%;
@@ -48,11 +47,6 @@ h1 {
   font-weight: 600;
   font-size: 45px;
 }
-/* 
-.jumbotron-welcome {
-  background: url('../images/MainBackgroundImage.jpg') no-repeat fixed;
-} */
-
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
