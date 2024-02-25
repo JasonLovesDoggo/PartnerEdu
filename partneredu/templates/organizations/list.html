@@ -4,10 +4,6 @@
 {% block title %}
   Organization Listings
 {% endblock title %}
-{% block deps %}
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  {{ form.media }}
- {% endblock deps %}
 
 {% block content %}
   <div class="search">
@@ -43,8 +39,8 @@
   {% endif %}
 
   {% if not organizations %}
-    {% if request.GET.q %}
-    <h4>No organizations found for "{{ request.GET.q }}". Please change your search term.</h4>
+    {% if request.GET %}
+    <h4>No organizations found for your filtering params. Please change your search term.</h4>
     {% else %}
     <h4>There are no organizations in the database. Please contact support if you believe this to be unexpected.</h4>
     {% endif %}
