@@ -1,17 +1,23 @@
 {% extends "base.html" %}
 
+{% block deps %}
+  <link rel="stylesheet" type="text/css" href="../../static/css/home.css">
+{% endblock deps %}
+
 {% block content %}
-  <div>
+  <div class="home">
     <div class="left">
       <h1>partneredU</h1>
-      <p>
+      <p class="detail">
         A databse for WLMAC's business and community partners for the Career and Technical Education Departement.
         Find information for at least 25 partners, filter, search and save.
       </p>
-      <button>get started</button>
+      <button class="get-started">
+        <p>get started</p>
+      </button>
     </div>
     <div class="right">
-
+      chippi chippi chappa chappa
     </div>
   </div>
 {% endblock content %}
