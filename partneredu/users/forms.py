@@ -1,3 +1,4 @@
+from os import environ
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
 from django.contrib.auth import forms as admin_forms
@@ -7,7 +8,6 @@ from django.forms import CharField, EmailField, Field, MultipleChoiceField, form
 from django.utils.translation import gettext_lazy as _
 from partneredu.users.models import Tag
 from partneredu.users.utils.choices import ORGANIZATION_TYPES
-
 User = get_user_model()
 
 
@@ -84,7 +84,10 @@ class UserSocialSignupForm(SocialSignupForm):
 class EventSearchForm(forms.Form):
     name = CharField(label="Event Name", required=False)
     keywords = CharField(label="Keywords to search for", required=False)
-    tags = MultipleChoiceField(label="Tags to filter by", choices=Tag.objects.values_list("name", "name"), required=False)
+    if environ.get("DJANGO_SETTINGS_MODULE") == "config.settings.test": # used so tests/compile messages works without db 
+            tags = MultipleChoiceField(label="Tags to filter by", choices=[("example", "tag")], required=False)
+    else:
+        tags = MultipleChoiceField(label="Tags to filter by", choices=Tag.objects.values_list("name", "name"), required=False)
 
 class OrganizationSearchForm(forms.Form):
     name = CharField(label="Organization Name", max_length=100, required=False)
