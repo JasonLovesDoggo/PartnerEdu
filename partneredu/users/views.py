@@ -211,8 +211,8 @@ class OrganizationDetailView(MessageDetailView):
         """
         This method returns the Organization object to be shown in detail view.
         """
-        slug_ = self.kwargs.get("slug")  # Get the slug from the URL
-        return get_object_or_404(Organization, slug=slug_)  # Return the Organization object with the given slug
+        pk_ = self.kwargs.get("pk")  # Get the slug from the URL
+        return get_object_or_404(Organization, id=pk_)  # Return the Organization object with the given ID
 
 
 class AnnouncementListView(ListView):

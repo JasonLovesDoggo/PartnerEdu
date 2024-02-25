@@ -26,4 +26,15 @@
       </form>
     {% endif %}
   {% endif %}
+<h2>Events</h2>
+  {% for event in organization.events.all %}
+    <div class="event">
+      <h2>
+        <a href="{% url 'users:event_detail' event.id %}">{{ event.name }}</a>
+      </h2>
+      <p>{{ event.start_date }} to {{ event.end_date }}</p>
+      <p>{{ event.location }}</p>
+    </div>
+
+  {% endfor %}
 {% endblock content %}
