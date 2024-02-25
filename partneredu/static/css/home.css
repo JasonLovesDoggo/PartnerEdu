@@ -1,0 +1,27 @@
+
+:root{
+    --brown: #523911;
+}
+
+.home{
+    margin: 50px;
+}
+
+.left{
+    width: 40vw;
+}
+
+.left h1{
+    color: var(--brown);
+    font-size: 100px;
+    font-weight: bold;
+    margin: 25px 0;
+}
+
+.left p{
+    font-weight: 600;
+}
+
+.right{
+
+}
