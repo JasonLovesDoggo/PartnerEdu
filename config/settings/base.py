@@ -299,11 +299,14 @@ PWA_APP_ORIENTATION = "any"
 PWA_APP_START_URL = "/"
 PWA_APP_STATUS_BAR_COLOR = "default"
 PWA_APP_ICONS = [
+        {"src": "/static/images/favicons/partneredu_32.png", "sizes": "32x32"},
+
     {"src": "/static/images/favicons/partneredu_512.png", "sizes": "512x512"},
-    {"src": "/static/images/favicons/partneredu.png", "sizes": "160x160"},
+    {"src": "/static/images/favicons/partneredu.png_160", "sizes": "160x160"},
+    {"src": "/static/images/favicons/partneredu.png", "sizes": "192x192"},
     {"src": "/static/images/favicons/partneredu_144.png", "sizes": "144x144"},
 ]
-PWA_APP_ICONS_APPLE = [{"src": "/static/images/favicons/partneredu_144.png", "sizes": "160x160"}]
+PWA_APP_ICONS_APPLE = [{"src": "/static/images/favicons/apple-touch-icon.png", "sizes": "160x160"}]
 PWA_APP_DIR = "ltr"
 PWA_APP_LANG = "en-US"
 PWA_APP_SHORTCUTS = [

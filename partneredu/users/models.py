@@ -215,7 +215,7 @@ class Organization(Model):
     # The name of the organization.
     name = CharField(max_length=200)
     # The unique slug of the organization.
-    slug = SlugField(unique=True, editable=False, null=True, blank=True)
+    slug = SlugField(unique=True, editable=False)
     # The category of the organization.
     category = CharField(max_length=255, choices=[(i, i) for i in ORGANIZATION_TYPES])
     # The resources associated with the organization.

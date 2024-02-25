@@ -27,7 +27,7 @@ urlpatterns = [
     path("events/", view=EventListView.as_view(), name="event_list"),
     path("events/<int:pk>/", view=EventDetailView.as_view(), name="event_detail"),
     path("organizations/", view=OrganizationListView.as_view(), name="organization_list"),
-    path("organizations/<int:pk>/", view=OrganizationDetailView.as_view(), name="organization_detail"),
+    path("organizations/<slug:slug>/", view=OrganizationDetailView.as_view(), name="organization_detail"),
     path("recent/", view=AnnouncementListView.as_view(), name="announcement_list"),
     path("announcement/<slug:slug>/", view=AnnouncementDetailView.as_view(), name="announcement_detail"),
     path("map", view=MapView.as_view(), name="map"),
