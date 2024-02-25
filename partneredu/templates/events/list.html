@@ -4,14 +4,45 @@
   Event Listings
 {% endblock title %}
 {% block content %}
+  
+<div class="row" style="margin-top: 7%;  margin-bottom: 3%;">
+  <h1 style="text-align: center; margin-bottom: 0%;">events</h1>
+  <p style="text-align: center;">These events are only the tip of the iceberg.</p>
+</div>
+{% if events %}
+<div class="row gx-5">
   {% for event in events %}
-    <div class="event">
-      <h2>
-        <a href="{% url 'users:event_detail' event.id %}">{{ event.name }}</a>
-      </h2>
-      <p>{{ event.start_date }} to {{ event.end_date }}</p>
-      <p>{{ event.location }}</p>
-    </div>
+  <div class="col-md-4 col-sm-2 event-card card">
+
+      <div class="card-body">
+          <div class="row">
+              <div class="col">
+                  <h6 class="card-subtitle mb-2 text-muted badge" style="background-color: #FADA35">{{event.status }}</h6>
+
+                  <a class="card-title stretched-link" style="text-decoration: none; color:#523911"><h5>{{ event.name }}</h5></a>
+                  <h6 class="card-subtitle mb-2 text-muted">{{ event.organization }}</h6>
+                  <!--<p class="card-text">{{ event.description|truncatechars:50 }}</p>-->
+                  <span class="bi bi-geo-alt"> {{ event.location }}</span>
+                  <br>
+                  <span class="bi bi-calendar-event"> {{ event.start_date }} - {{event.end_date }}</span>
+                  <div class="card-footer">{% if user in event.attendees.all %} <p class="card-text"></p>interested! ({{event.attendees.count}} attending)</p> {% endif %}
+
+                  </div>
+              </div>
+              <div class="col points-blob text-center vertical-center-smol" style="max-width: 5rem;">
+                  <div class="">
+                  <p class="points-num align-middle" style=" margin-bottom: 0">${{ event.price }}</p>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
   {% endfor %}
-  {% if not events %}<h3>There are no events to display.</h3>{% endif %}
+
+</div>
+{% else %}
+<p>No events found.</p>
+{% endif %}
+
 {% endblock content %}

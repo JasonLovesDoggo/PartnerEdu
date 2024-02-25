@@ -8,7 +8,10 @@
   {% translate "Sign In" %}
 {% endblock head_title %}
 {% block inner %}
-  <h1>{% translate "Sign In" %}</h1>
+<div class="row" style="margin-bottom: 3%;">
+  <h1 style="text-align: center; margin-bottom: 0%;">{% translate "log in" %}</h1>
+  <p style="text-align: center;">enter to enrich education through our partnered organizations</p>
+</div>
   {% get_providers as socialaccount_providers %}
   {% if socialaccount_providers %}
     <p>
@@ -27,26 +30,29 @@
       <div class="login-or">{% translate "or" %}</div>
     </div>
     {% include "socialaccount/snippets/login_extra.html" %}
-  {% else %}
-    {% if ACCOUNT_ALLOW_REGISTRATION %}
-      <p>
-        {% blocktranslate trimmed %}
-          If you have not created an account yet, then please
-          <a href="{{ signup_url }}">sign up</a> first.
-        {% endblocktranslate %}
-      </p>
-    {% endif %}
   {% endif %}
-  <form class="login" method="post" action="{% url 'account_login' %}">
-    {% csrf_token %}
-    {{ form|crispy }}
-    {% if redirect_field_value %}
-      <input type="hidden"
-             name="{{ redirect_field_name }}"
-             value="{{ redirect_field_value }}" />
-    {% endif %}
-    <a class="button secondaryAction"
-       href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>
-    <button class="primaryAction btn btn-primary" type="submit">{% translate "Sign In" %}</button>
-  </form>
+  <div class="container mx-auto" style="max-width:500px;">
+    <form class="login form-horizontal" method="post" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {{ form|crispy }}
+      {% if redirect_field_value %}
+        <input type="hidden"
+              name="{{ redirect_field_name }}"
+              value="{{ redirect_field_value }}" />
+      {% endif %}
+      <!--<a class="button secondaryAction"
+        href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>-->
+        
+      <div class="row text-center">
+          <button type="submit" class="primaryAction btn-block btn btn-primary" style="background:rgba(126, 139, 77, 1);border-color: rgba(126, 139, 77, 1); border-radius:3rem; margin-top:5%">{% translate "log in"%}</button>
+      </div>
+      {% if ACCOUNT_ALLOW_REGISTRATION %}
+      <p class="text-center" style="margin-top:2%">
+        {% blocktranslate trimmed %}
+          don't have an account? <a class="colored-link"
+          style="text-decoration: none;" href="{{ signup_url }}">make one here</a>.</p>
+        {% endblocktranslate %}
+      {% endif %}
+    </form>
+  </div>
 {% endblock inner %}

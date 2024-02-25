@@ -7,10 +7,10 @@
   {% translate "Signup" %}
 {% endblock head_title %}
 {% block inner %}
-  <h1>{% translate "Sign Up" %}</h1>
-  <p>
-    {% blocktranslate %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktranslate %}
-  </p>
+<div class="row" style="margin-bottom: 3%;">
+  <h1 style="text-align: center; margin-bottom: 0%;">{% translate "register" %}</h1>
+  <p style="text-align: center;">enter to enrich education through our partnered organizations</p>
+</div>
   <form class="signup"
         id="signup_form"
         method="post"
@@ -22,6 +22,13 @@
              name="{{ redirect_field_name }}"
              value="{{ redirect_field_value }}" />
     {% endif %}
-    <button class="btn btn-primary" type="submit">{% translate "Sign Up" %} »</button>
+    <div class="row text-center">
+      <button type="submit" class="primaryAction btn-block btn btn-primary" style="background:rgba(126, 139, 77, 1);border-color: rgba(126, 139, 77, 1); border-radius:3rem; margin-top:5%">{% translate "register"%}</button>
+  </div>
+    <p class="text-center" style="margin-top:2%">
+      {% blocktranslate trimmed %}
+        already have an account? <a class="colored-link"
+        style="text-decoration: none;" href="{{ login_url }}">login here</a>.</p>
+        {% endblocktranslate %}
   </form>
 {% endblock inner %}

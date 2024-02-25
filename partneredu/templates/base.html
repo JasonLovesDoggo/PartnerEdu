@@ -26,6 +26,9 @@
       <!-- Your stuff: Third-party CSS libraries go here -->
       <!-- This file stores project-specific CSS -->
       {% compress css %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
         <link href="{% static 'css/project.css' %}" rel="stylesheet" />
       {% endcompress %}
     {% endblock css %}
@@ -50,7 +53,7 @@
   </head>
   <body>
     <div class="mb-1">
-      <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <div class="container-fluid">
           <button class="navbar-toggler navbar-toggler-right"
                   type="button"
@@ -63,40 +66,40 @@
           </button>
           <a class="navbar-brand" href="{% url 'home' %}">PartnerEDU</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ms-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'users:dashboard' %}">Dashboard <span class="visually-hidden">(current)</span></a>
+                <a class="nav-link" href="{% url 'users:dashboard' %}">{% translate "dashboard" %} <span class="visually-hidden">(current)</span></a>
               </li>
-              <li class="nav-item">
+              <!--<li class="nav-item">
                 <a class="nav-link" href="{% url 'about' %}">About</a>
+              </li>-->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:event_list' %}">{% translate "events" %}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:event_list' %}">Events</a>
+                <a class="nav-link" href="{% url 'users:organization_list' %}">{% translate "organizations" %}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:organization_list' %}">Organizations</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:announcement_list' %}">Announcements</a>
+                <a class="nav-link" href="{% url 'users:announcement_list' %}">{% translate "announcements" %}</a>
               </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
+                  <a class="nav-link" href="{% url 'users:detail' request.user.pk %}">{% translate "my profile" %}</a>
                 </li>
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
+                  <a class="nav-link" href="{% url 'account_logout' %}">{% translate "log out" %}</a>
                 </li>
               {% else %}
                 {% if ACCOUNT_ALLOW_REGISTRATION %}
                   <li class="nav-item">
                     {# URL provided by django-allauth/account/urls.py #}
-                    <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
+                    <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "register" %}</a>
                   </li>
                 {% endif %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
+                  <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "log in" %}</a>
                 </li>
               {% endif %}
             </ul>
@@ -104,7 +107,7 @@
         </div>
       </nav>
     </div>
-    <div class="container">
+    <div class="container body-content" style="margin-top: 5%;">
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
