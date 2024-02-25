@@ -19,12 +19,16 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libproj-dev  \
   gdal-bin
 
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
+
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements .
 
 # Create Python Dependency and Sub-Dependency Wheels.
 RUN pip wheel --wheel-dir /usr/src/app/wheels  \
   -r ${BUILD_ENVIRONMENT}.txt
+RUN pip wheel --wheel-dir /usr/src/app/wheels numpy GDAL=="$(gdal-config --version).*"
 
 
 # Python 'run' stage
@@ -49,7 +53,11 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libpq-dev \
   # Translations dependencies
   gettext \
-  # cleaning up unused files
+  # gdal dependencies
+  binutils \
+  libproj-dev  \
+  gdal-bin \
+  # cleaning up unused files \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
