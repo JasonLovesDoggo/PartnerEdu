@@ -1,27 +1,35 @@
 {% extends "base.html" %}
+{% load static %}
 
- }}
+{% block deps %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/orgs-list.css" %}"/>
+{% endblock deps %}
+
 {% block title %}
   Organization Listings
 {% endblock title %}
 
 {% block content %}
+  <h1>find the organization right for you</h1>
+  <h4>wlmac-partnered business and communities</h3>
   <div class="search">
-    <span>Search</span>
-  <form method='GET'>
-    {{ form }}
-    <input class="button" type='submit' value="Search Profile"/>
-  </form>
+      <span>Search</span>
+    <form method='GET'>
+      {{ form }}
+      <input class="button" type='submit' value="Search Profile"/>
+    </form>
   </div>
-  {% for organization in organizations %}
-    <div class="organization">
-      <h2>
-        <a href="{% url 'users:organization_detail' organization.id %}">{{ organization.name }}</a>
-      </h2>
-      <p>Category: {{ organization.category }}</p>
-      <p>Event Type: {{ organization.event_type }}</p>
-    </div>
-  {% endfor %}
+  <div class="org-list">
+    {% for organization in organizations %}
+      <div class="organization">
+        <h2>
+          <a href="{% url 'users:organization_detail' organization.id %}">{{ organization.name }}</a>
+        </h2>
+        <p>Category: {{ organization.category }}</p>
+        <p>Event Type: {{ organization.event_type }}</p>
+      </div>
+    {% endfor %}
+  </div>
   {% if page_obj.has_previous or page_obj.has_next %}
     <div class="pagination">
       {% if page_obj.has_previous %}
