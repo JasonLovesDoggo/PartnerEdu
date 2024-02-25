@@ -38,6 +38,10 @@ The system is set up with reasonable defaults, including 404 logging and integra
 
 You must set the DSN url in production.
 
+## Translations
+PartnerEDU is a multilingual project. It uses Django's internationalization system to provide a translation of the site's content. The project is set up to support multiple languages, and the user can switch between them.
+for more information, please check the [Django documentation](https://docs.djangoproject.com/en/stable/topics/i18n/translation/) and our documentation [here](https://github.com/JasonLovesDoggo/fbla/blob/fdde017e1fe81d0ce4d4d432d494d75dce893644/locale/README.md).
+
 ## Setup
 
 1. Clone the repo
