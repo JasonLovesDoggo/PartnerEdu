@@ -24,7 +24,7 @@
       <div class="card-body">
           <div class="row">
               <div class="col">
-                {% for event in org.events %}
+                {% for event in org.events.all %}
                   <h6 class="card-subtitle mb-2 text-muted badge" style="background-color: #FADA35">{{event.status }}</h6>
                   {% for tag in event.tags.all %}<p class="badge">{{ tag.name }}</p>{% endfor %}
                   <a href="{% url 'users:organization_detail' org.id %}" class="card-title stretched-link" style="text-decoration: none; color:#523911"><h5>{{ org.name }}</h5></a>
@@ -41,13 +41,13 @@
 
       </div>
       {% if user.is_authenticated %}
-        {% if user in organization.subscribers.all %}
-          <form action="{% url 'users:leave_organization' organization.id %}" method="post">
+        {% if user in org.subscribers.all %}
+          <form action="{% url 'users:organization_unsubscribe' org.id %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Unsubscribe" />
           </form>
         {% else %}
-          <form action="{% url 'users:join_organization' organization.id %}" method="post">
+          <form action="{% url 'users:organization_subscribe' org.id %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Subscribe" />
           </form>
