@@ -91,6 +91,6 @@ RUN DATABASE_URL="" \
    
 RUN DATABASE_URL="" \
   DJANGO_SETTINGS_MODULE="config.settings.test" \
-  python manage.py compress  
+  python manage.py compress --force  
 
 ENTRYPOINT ["/entrypoint"]
