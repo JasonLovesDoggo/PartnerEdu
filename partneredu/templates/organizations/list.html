@@ -1,36 +1,50 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block deps %}
-  <link rel="stylesheet" type="text/css" href="{% static "css/orgs-list.css" %}"/>
-{% endblock deps %}
 
 {% block title %}
   Organization Listings
 {% endblock title %}
-
 {% block content %}
-  <div class="main">
-    <h1>find the organization right for you</h1>
-    <h4>wlmac-partnered business and communities</h3>
-    <div class="search">
-      <form method='GET' class="search-bar">
-        {{ form }}
-        <input class="button" type='submit' value="Search Profile"/>
-      </form>
-    </div>
-    <div class="org-list">
-      {% for organization in organizations %}
-        <div class="organization">
-          <h2>
-            <a href="{% url 'users:organization_detail' organization.id %}">{{ organization.name }}</a>
-          </h2>
-          <p>Category: {{ organization.category }}</p>
-          <p>Event Type: {{ organization.event_type }}</p>
-        </div>
-      {% endfor %}
-    </div>
-    {% if page_obj.has_previous or page_obj.has_next %}
+  
+<div class="row" style="margin-top: 7%;  margin-bottom: 3%;">
+  <h1 style="text-align: center; margin-bottom: 0%;">organizations</h1>
+  <p style="text-align: center;">find the right WLMAC-partnered organization for you!</p>
+</div>
+<div class="search">
+  <form method='GET' class="search-bar">
+    {{ form }}
+    <input class="button" type='submit' value="Search Profile"/>
+  </form>
+</div>
+{% if organizations %}
+<div class="row gx-5">
+  {% for org in organizations %}
+  <div class="col-md-4 col-sm-2 event-card card">
+      <div class="card-body">
+          <div class="row">
+              <div class="col">
+                  <h6 class="card-subtitle mb-2 text-muted badge" style="background-color: #FADA35">{{event.status }}</h6>
+                  {% for tag in event.tags.all %}<p class="badge">{{ tag.name }}</p>{% endfor %}
+                  <a href="{% url 'users:organization_detail' org.id %}" class="card-title stretched-link" style="text-decoration: none; color:#523911"><h5>{{ org.name }}</h5></a>
+                  <h6 class="card-subtitle mb-2 text-muted">{{ org.category }}</h6>
+                  <p class="card-text">{{ org.description|truncatechars:50 }}</p>
+                  <span class="bi bi-geo-alt"> {{ org.event_type }}</span>
+                  <br>
+
+                  </div>
+              </div>
+              <div class="card-footer">{% if user in event.attendees.all %} <p class="card-text"></p>interested! ({{event.attendees.count}} attending)</p> {% endif %}
+          </div>
+
+      </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>No organizations found.</p>
+  {% endif %}
+</div>
+{% if page_obj.has_previous or page_obj.has_next %}
       <div class="pagination">
         {% if page_obj.has_previous %}
           <a href="?page=1">&laquo; first</a>
@@ -46,12 +60,5 @@
       </div>
     {% endif %}
 
-    {% if not organizations %}
-      {% if request.GET %}
-      <h4>No organizations found for your filtering params. Please change your search term.</h4>
-      {% else %}
-      <h4>There are no organizations in the database. Please contact support if you believe this to be unexpected.</h4>
-      {% endif %}
-    {% endif %}
-    </div>
+
 {% endblock content %}

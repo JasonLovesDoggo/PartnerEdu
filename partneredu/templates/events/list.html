@@ -9,6 +9,12 @@
   <h1 style="text-align: center; margin-bottom: 0%;">events</h1>
   <p style="text-align: center;">These events are only the tip of the iceberg.</p>
 </div>
+<div class="search">
+  <form method='GET' class="search-bar">
+    {{ form }}
+    <input class="button" type='submit' value="Search Profile"/>
+  </form>
+</div>
 {% if events %}
 <div class="row gx-5">
   {% for event in events %}
@@ -19,7 +25,7 @@
               <div class="col">
                   <h6 class="card-subtitle mb-2 text-muted badge" style="background-color: #FADA35">{{event.status }}</h6>
 
-                  <a class="card-title stretched-link" style="text-decoration: none; color:#523911"><h5>{{ event.name }}</h5></a>
+                  <a href="{% url 'users:event_detail' event.id %}" class="card-title stretched-link" style="text-decoration: none; color:#523911"><h5>{{ event.name }}</h5></a>
                   <h6 class="card-subtitle mb-2 text-muted">{{ event.organization }}</h6>
                   <!--<p class="card-text">{{ event.description|truncatechars:50 }}</p>-->
                   <span class="bi bi-geo-alt"> {{ event.location }}</span>
@@ -29,11 +35,8 @@
 
                   </div>
               </div>
-              <div class="col points-blob text-center vertical-center-smol" style="max-width: 5rem;">
-                  <div class="">
-                  <p class="points-num align-middle" style=" margin-bottom: 0">${{ event.price }}</p>
-                  </div>
-              </div>
+              <p class="points-num align-middle" style=" margin-bottom: 0">${{ event.price }}</p>
+
           </div>
 
       </div>

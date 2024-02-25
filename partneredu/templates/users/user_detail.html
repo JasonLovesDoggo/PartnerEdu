@@ -8,23 +8,42 @@
 {% endblock title %}
 {% block content %}
   <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <h2>{{ object.name }}</h2>
+
+    <div class="container body-content" style="">
+      <div class="row" style="margin-bottom: 3%;">
+          <h1 style="margin-bottom: 0%;">{{ object.name }} </h1>
+          <p style="">{{ object.email }} {% if object == request.user %} | <a href="{% url 'account_email' %}">edit email</a> | <a href="{% url 'users:update' %}">edit name</a> {% endif %} </p>
+          <br>
+          <p>{{show_user.bio}}</p>
       </div>
-    </div>
-    {% if object == request.user %}
-      <!-- Action buttons -->
-      <div class="row">
-        <div class="col-sm-12">
-          <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-          <a class="btn btn-primary"
-             href="{% url 'account_email' %}"
-             role="button">E-Mail</a>
-          <!-- Your Stuff: Custom user template urls -->
-        </div>
+  
+      <div>
+          <b>Interested Tags:</b>
+          {% for tag in object.subscribed_tags.all %}
+          <span class="badge">{{tag}}</span>
+          {% endfor %}
       </div>
-      <!-- End Action buttons -->
-    {% endif %}
+      <div>
+          <b>Events Attended:</b>
+          {% for event in object.events.all %}
+          <div href="{% url 'users:event_detail' event.id %}" class="card-link">{{event}}</div>
+          {% endfor %}
+      </div>
+      <div>
+          <b>Subscribed Organizations:</b>
+          {% for org in object.subscribed_organizations.all %}
+
+            <div href="">{{org}}</span>
+          {% endfor %}
+      </div>
+  </div>
+
   </div>
 {% endblock content %}
+
+
+
+
+
+
+
