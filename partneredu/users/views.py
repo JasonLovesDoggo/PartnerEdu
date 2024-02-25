@@ -26,6 +26,22 @@ from partneredu.users.models import Announcement, Event, Organization
 User = get_user_model()
 
 
+class MessageDetailView(DetailView):
+    def get(self, request, *args, **kwargs):
+        """
+        This method handles the GET request.
+        """
+        if "msg" in request.session and request.session["msg"] is not None:
+            if "msg_err" in request.session:
+                del request.session["msg_err"]
+                messages.warning(request, request.session["msg"])
+            else:
+                messages.success(request, request.session["msg"])
+            del request.session["msg"]
+
+        return super().get(request, *args, **kwargs)
+
+
 class UserDetailView(LoginRequiredMixin, DetailView):
     """
     This view is for displaying the details of a user.
@@ -116,27 +132,13 @@ class EventListView(ListView):
         return queryset  # Return the queryset
 
 
-class EventDetailView(DetailView):
+class EventDetailView(MessageDetailView):
     """
     This view is for displaying the details of an event.
     """
 
     model = Event  # The model being used is the Event model
     template_name = "events/detail.html"  # The template used for this view is 'event_detail.html'
-
-    def get(self, request, *args, **kwargs):
-        """
-        This method handles the GET request.
-        """
-        if "msg" in request.session and request.session["msg"] is not None:
-            if "msg_err" in request.session:
-                del request.session["msg_err"]
-                messages.warning(request, request.session["msg"])
-            else:
-                messages.success(request, request.session["msg"])
-            del request.session["msg"]
-
-        return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         """
@@ -194,7 +196,7 @@ class OrganizationListView(ListView):
         return object_list
 
 
-class OrganizationDetailView(DetailView):
+class OrganizationDetailView(MessageDetailView):
     """
     This view is for displaying the details of an organization.
     """
@@ -322,3 +324,35 @@ def join_event(request, pk):
     else:
         request.session["msg"] = "Event is full"
         return redirect("users:event_detail", pk=pk)
+
+
+def leave_organization(request, pk):
+    """
+    This view is for allowing the user to leave an organization.
+    """
+    organization = get_object_or_404(Organization, pk=pk)  # Get the organization with the given primary key
+    try:
+        organization.subscribers.remove(request.user)  # Remove the user from the organization
+    except Exception:
+        request.session["msg"] = "You are not subscribed to the organization"
+        request.session["msg_err"] = True
+        return redirect("users:organization_detail", pk=pk)
+    # return a 200 to indicate success
+    request.session["msg"] = "You left the organization"
+    return redirect("users:organization_detail", pk=pk)
+
+
+def join_organization(request, pk):
+    """
+    This view is for allowing the user to join an organization.
+    """
+    organization = get_object_or_404(Organization, pk=pk)  # Get the organization with the given primary key
+    try:
+        organization.subscribers.add(request.user)  # Add the user to the organization
+    except Exception:
+        request.session["msg"] = f"You are already subscribed to {organization.name}"
+        request.session["msg_err"] = True
+        return redirect("users:organization_detail", pk=pk)
+    # return a 200 to indicate success
+    request.session["msg"] = "You joined the organization"
+    return redirect("users:organization_detail", pk=pk)

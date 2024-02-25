@@ -91,8 +91,12 @@ Creating a backup:
 
 Listing backups:
 
-` docker compose -f production.yml  exec postgres backups`
+`docker compose -f production.yml exec postgres backups`
 
 Restoring a backup:
 
 `docker compose -f production.yml exec postgres restore backup_name.sql.gz`
+
+Removing a backup
+
+`docker compose -f production.yml exec postgres rmbackup backup_name.sql.gz`

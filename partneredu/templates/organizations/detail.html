@@ -13,4 +13,17 @@
   {% for contact in organization.contacts.all %}<p>{{ contact.internal_name }}</p>{% endfor %}
   <h2>Tags</h2>
   {% for tag in organization.tags.all %}<p>{{ tag.name }}</p>{% endfor %}
+  {% if user.is_authenticated %}
+    {% if user in organization.subscribers.all %}
+      <form action="{% url 'users:organization_unsubscribe' organization.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Unfollow"/>
+      </form>
+    {% else %}
+      <form action="{% url 'users:organization_subscribe' organization.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Follow"/>
+      </form>
+    {% endif %}
+  {% endif %}
 {% endblock content %}
