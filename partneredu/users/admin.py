@@ -59,11 +59,4 @@ class UserAdmin(auth_admin.UserAdmin):
     inlines = [StudentProfileInline]
 
 
-admin.site.site_header = "PartneredU Administration"
-admin.site.register(models.Event)
-admin.site.register(models.Organization)
-admin.site.register(models.Announcement)
-admin.site.register(models.Tag)
-admin.site.register(models.Contact)
-admin.site.register(models.Class)
-admin.site.register(models.StudentProfile)
+admin.site.site_header = "PartnerEDU Administration"

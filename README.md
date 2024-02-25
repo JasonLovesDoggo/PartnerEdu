@@ -1,4 +1,4 @@
-# PartneredU
+# PartnerEDU
 
 A CMS for schools
 
