@@ -26,7 +26,7 @@ COPY ./requirements .
 # Create Python Dependency and Sub-Dependency Wheels.
 RUN pip wheel --wheel-dir /usr/src/app/wheels  \
   -r ${BUILD_ENVIRONMENT}.txt
-RUN pip wheel --wheel-dir /usr/src/app/wheels numpy GDAL=="$(gdal-config --version).*"
+#RUN pip wheel --wheel-dir /usr/src/app/wheels numpy  =="$(gdal-config --version).*"
 
 
 # Python 'run' stage
