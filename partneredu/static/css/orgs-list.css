@@ -3,6 +3,10 @@
     --brown: #523911;
 }
 
+.main{
+    
+}
+
 h1{
     color: var(--brown);
     font-size: 45px;
@@ -11,6 +15,5 @@ h1{
 
 h4{
     color: var(--brown);
-    /* font-size: 45px; */
     font-weight: 500;
 }

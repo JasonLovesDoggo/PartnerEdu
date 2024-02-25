@@ -10,47 +10,48 @@
 {% endblock title %}
 
 {% block content %}
-  <h1>find the organization right for you</h1>
-  <h4>wlmac-partnered business and communities</h3>
-  <div class="search">
-      <span>Search</span>
-    <form method='GET'>
-      {{ form }}
-      <input class="button" type='submit' value="Search Profile"/>
-    </form>
-  </div>
-  <div class="org-list">
-    {% for organization in organizations %}
-      <div class="organization">
-        <h2>
-          <a href="{% url 'users:organization_detail' organization.id %}">{{ organization.name }}</a>
-        </h2>
-        <p>Category: {{ organization.category }}</p>
-        <p>Event Type: {{ organization.event_type }}</p>
-      </div>
-    {% endfor %}
-  </div>
-  {% if page_obj.has_previous or page_obj.has_next %}
-    <div class="pagination">
-      {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
-      {% endif %}
-      <span class="current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-      </span>
-      {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-      {% endif %}
+  <div class="main">
+    <h1>find the organization right for you</h1>
+    <h4>wlmac-partnered business and communities</h3>
+    <div class="search">
+      <form method='GET' class="search-bar">
+        {{ form }}
+        <input class="button" type='submit' value="Search Profile"/>
+      </form>
     </div>
-  {% endif %}
-
-  {% if not organizations %}
-    {% if request.GET %}
-    <h4>No organizations found for your filtering params. Please change your search term.</h4>
-    {% else %}
-    <h4>There are no organizations in the database. Please contact support if you believe this to be unexpected.</h4>
+    <div class="org-list">
+      {% for organization in organizations %}
+        <div class="organization">
+          <h2>
+            <a href="{% url 'users:organization_detail' organization.id %}">{{ organization.name }}</a>
+          </h2>
+          <p>Category: {{ organization.category }}</p>
+          <p>Event Type: {{ organization.event_type }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    {% if page_obj.has_previous or page_obj.has_next %}
+      <div class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
+        {% endif %}
+        <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+      </div>
     {% endif %}
-  {% endif %}
+
+    {% if not organizations %}
+      {% if request.GET %}
+      <h4>No organizations found for your filtering params. Please change your search term.</h4>
+      {% else %}
+      <h4>There are no organizations in the database. Please contact support if you believe this to be unexpected.</h4>
+      {% endif %}
+    {% endif %}
+    </div>
 {% endblock content %}

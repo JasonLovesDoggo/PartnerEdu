@@ -1,5 +1,10 @@
 /* These styles are generated from project.scss. */
 
+.navbar{
+  border-bottom: 2px solid #FFB537;
+  box-shadow: 0 0 30px #FFB537;
+}
+
 .alert-debug {
   color: black;
   background-color: white;
