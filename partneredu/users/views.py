@@ -117,7 +117,7 @@ class EventListView(ListView):
         if self.request.GET.get("attendance", None) is not None:
             return Event.objects.all().order_by("-attendees__count")
         now = timezone.now()  # Get the current time
-        queryset = (
+        object_list = (
             Event.objects.annotate(
                 relevance=Case(
                     When(start_date__lte=now, end_date__gte=now, then=1),
@@ -136,7 +136,7 @@ class EventListView(ListView):
             )
             .order_by("relevance", "timediff")
         )
-        form = OrganizationSearchForm(self.request.GET)
+        form = EventSearchForm(self.request.GET)
         object_list = self.model.objects.all().order_by("-subscribers")
 
         if form.is_valid():
@@ -154,7 +154,8 @@ class EventListView(ListView):
                 object_list = object_list.filter(tags__in=[tags])
 
         return object_list
-
+    
+class EventDetailView(MessageDetailView): 
     """
     This view is for displaying the details of an event.
     """
