@@ -47,7 +47,7 @@ class User(AbstractUser):
     # The tags that the user is subscribed to.
     subscribed_tags = ManyToManyField("Tag")
     # The organizations that the user is subscribed to.
-    subscribed_organizations = ManyToManyField("Organization")
+    subscribed_organizations = ManyToManyField("Organization", related_name="subscribers")
     # The contacts of the user.
     contacts = ManyToManyField("Contact", blank=True, related_name="contacts")
     # The manager for this model.

@@ -169,7 +169,7 @@ class OrganizationListView(ListView):
 
     def get_queryset(self):
         form = OrganizationSearchForm(self.request.GET)
-        object_list = self.model.objects.all().order_by("-subscribers__count")
+        object_list = self.model.objects.all().order_by("-subscribers")
 
         if form.is_valid():
             name = form.cleaned_data.get("name")
@@ -313,7 +313,6 @@ def join_event(request, pk):
     """
     event = get_object_or_404(Event, pk=pk)  # Get the event with the given primary key
     if event.max_attendees is None or event.max_attendees > event.attendees.count():
-        print(event.attendees.count())
         try:
             request.user.events.add(event)  # Add the user to the event
         except Exception:
