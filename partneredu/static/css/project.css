@@ -48,10 +48,10 @@ h1 {
   font-weight: 600;
   font-size: 45px;
 }
-
+/* 
 .jumbotron-welcome {
-  background: url('images/MainBackgroundImage.jpg') no-repeat fixed;
-}
+  background: url('../images/MainBackgroundImage.jpg') no-repeat fixed;
+} */
 
 
 /* Responsive: Portrait tablets and up */
