@@ -215,8 +215,6 @@ class Organization(Model):
     id = AutoField(primary_key=True)
     # The name of the organization.
     name = CharField(max_length=200)
-    # The unique slug of the organization.
-    slug = SlugField(unique=True, editable=False)
     # The category of the organization.
     category = CharField(max_length=255, choices=[(i, i) for i in ORGANIZATION_TYPES])
     # The resources associated with the organization.
@@ -239,15 +237,6 @@ class Organization(Model):
     description = TextField(max_length=500, blank=True, null=True)
     # The location of the organization's HQ.
     location = PlainLocationField()
-
-    def save(self, *args, **kwargs):
-        """
-        This method is called when the organization is saved.
-        It generates a unique slug for the organization.
-        """
-        if not self.id or not self.slug:  # only on creation
-            self.slug = slugify(self.name)  # replace spaces with hyphens and other unicode changes.
-        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         """
