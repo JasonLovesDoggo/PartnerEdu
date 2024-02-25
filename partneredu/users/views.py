@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Case, F, IntegerField, Q, When
-from django.db.models.fields import DurationField
+# from django.db.models.functions import Extract
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -117,25 +117,25 @@ class EventListView(ListView):
         if self.request.GET.get("attendance", None) is not None:
             return Event.objects.all().order_by("-attendees__count")
         now = timezone.now()  # Get the current time
-        object_list = (
-            Event.objects.annotate(
-                relevance=Case(
-                    When(start_date__lte=now, end_date__gte=now, then=1),
-                    When(start_date__gt=now, then=2),
-                    When(end_date__lt=now, then=3),
-                    output_field=IntegerField(),
-                )
-            )
-            .annotate(
-                timediff=Case(
-                    When(start_date__gt=now, then=F("start_date") - now),
-                    When(end_date__lt=now, then=now - F("end_date")),
-                    default=0,
-                    output_field=DurationField(),
-                )
-            )
-            .order_by("relevance", "timediff")
-        )
+        object_list = Event.objects.all() 
+    #     Event.objects.annotate(
+    #     relevance=Case(
+    #         When(start_date__lte=now, end_date__gte=now, then=1),
+    #         When(start_date__gt=now, then=2),
+    #         When(end_date__lt=now, then=3),
+    #         output_field=IntegerField(),
+    #     )
+    # )
+    # .annotate(
+    #     timediff=Case(
+    #         When(start_date__gt=now, then=Extract(F("start_date") - now, 'seconds')),
+    #         When(end_date__lt=now, then=Extract(now - F("end_date"), 'seconds')),
+    #         default=0,
+    #         output_field=IntegerField(),
+    #     )
+    # )
+    # .order_by("relevance", "timediff")
+    #     )       
         form = EventSearchForm(self.request.GET)
 
         if form.is_valid():
