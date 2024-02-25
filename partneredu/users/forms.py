@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core import validators
 from django.forms import CharField, EmailField, Field, MultipleChoiceField, forms
 from django.utils.translation import gettext_lazy as _
-
+from partneredu.users.models import Tag
 from partneredu.users.utils.choices import ORGANIZATION_TYPES
 
 User = get_user_model()
@@ -81,6 +81,10 @@ class UserSocialSignupForm(SocialSignupForm):
     See UserSignupForm otherwise.
     """
 
+class EventSearchForm(forms.Form):
+    name = CharField(label="Event Name", required=False)
+    keywords = CharField(label="Keywords to search for", required=False)
+    tags = MultipleChoiceField(label="Tags to filter by", choices=Tag.objects.all(), required=False)
 
 class OrganizationSearchForm(forms.Form):
     name = CharField(label="Organization Name", max_length=100, required=False)

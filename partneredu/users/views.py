@@ -14,7 +14,7 @@ from django.views import View
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
 import partneredu
-from partneredu.users.forms import OrganizationSearchForm
+from partneredu.users.forms import OrganizationSearchForm,EventSearchForm
 from partneredu.users.models import Announcement, Event, Organization
 
 # if settings.DEBUG is False:
@@ -104,7 +104,12 @@ class EventListView(ListView):
     template_name = "events/list.html"  # The template used for this view is 'event_list.html'
     context_object_name = "events"  # The name of the variable to be used in the template context is 'events'
     paginate_by = 10  # The number of events displayed per page is 10
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = EventSearchForm()
+        return context
+    
     def get_queryset(self):
         """
         This method returns the queryset to be used for the list view.
@@ -131,10 +136,25 @@ class EventListView(ListView):
             )
             .order_by("relevance", "timediff")
         )
-        return queryset  # Return the queryset
+        form = OrganizationSearchForm(self.request.GET)
+        object_list = self.model.objects.all().order_by("-subscribers")
 
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            tags = form.cleaned_data.get("tags")
+            keywords = form.cleaned_data.get("keywords")
 
-class EventDetailView(MessageDetailView):
+            if name:
+                object_list = object_list.filter(Q(name__icontains=name) | Q(info__icontains=name))
+
+            if keywords:
+                for keyword in keywords:
+                    object_list = object_list.filter(description__icontains=keyword)
+            if tags: 
+                object_list = object_list.filter(tags__in=[tags])
+
+        return object_list
+
     """
     This view is for displaying the details of an event.
     """
